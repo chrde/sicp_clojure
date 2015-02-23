@@ -39,3 +39,21 @@
   (if (good-enough? guess n)
     guess
     (recur (improve-cube guess n) n)))
+
+;; 1.11
+(defn recur-f [n]
+  (if (< n 3)
+    n
+    (+ (recur-f (- n 1))
+       (* 2 (recur-f (- n 2)))
+       (* 3 (recur-f (- n 3))))))
+
+(defn iter-f
+  ([n]
+   (if (< n 3)
+     n
+     (iter-f 0 1 2 (- n 3))))
+  ([x y z n]
+   (if (= n 0)
+     (+ z (* 2 y) (* 3 x))
+     (iter-f y z (+ z (* 2 y) (* 3 x)) (dec n) ))))
