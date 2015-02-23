@@ -57,3 +57,8 @@
    (if (= n 0)
      (+ z (* 2 y) (* 3 x))
      (iter-f y z (+ z (* 2 y) (* 3 x)) (dec n) ))))
+
+;; 1.12
+(defn next-line [line]
+  (let [line (concat '(0) line '(0))]
+    (map #(apply + %) (partition 2 1 line))))
