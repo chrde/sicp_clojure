@@ -17,12 +17,12 @@
   (< (chp1/abs (- x y)) 0.001))
 (defn improved-sqr-iter
   ([guess n]
-    (improved-sqr-iter guess n 0))
+   (improved-sqr-iter guess n 0))
   ([guess n previous]
-    (if (and (chp1/good-enough? guess n)
-             (improved-enough? guess previous))
-      guess
-      (recur (chp1/improve guess n) n guess))))
+   (if (and (chp1/good-enough? guess n)
+            (improved-enough? guess previous))
+     guess
+     (recur (chp1/improve guess n) n guess))))
 
 ;; 1.8
 (defn cube [x]
@@ -56,9 +56,20 @@
   ([x y z n]
    (if (= n 0)
      (+ z (* 2 y) (* 3 x))
-     (iter-f y z (+ z (* 2 y) (* 3 x)) (dec n) ))))
+     (iter-f y z (+ z (* 2 y) (* 3 x)) (dec n)))))
 
 ;; 1.12
+;;First way - each element
+(defn pascal-element [row col]
+  (cond (= col 1) 1
+        (= col row) 1
+        :else (+ (pascal-element (dec row) (dec col))
+                 (pascal-element (dec row) col))))
+;;Second way - each row
 (defn next-line [line]
   (let [line (concat '(0) line '(0))]
     (map #(apply + %) (partition 2 1 line))))
+
+(defn pascal-line [n]
+  (let [f (iterate next-line (list n))]
+    (nth f n)))
