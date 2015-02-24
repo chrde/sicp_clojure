@@ -38,7 +38,7 @@
 
 ;; Fibonacci
 (defn recur-fibonacci [n]
-  (cond (= n 0) 0
+  (cond (zero? n) 0
         (= n 1) 1
         :else (+ (recur-fibonacci (- n 1))
                  (recur-fibonacci (- n 2)))))
@@ -47,7 +47,7 @@
   ([n]
    (iter-fibonacci 1 0 n))
   ([a b count]
-    (if (= count 0)
+    (if (zero? count)
       b
       (iter-fibonacci (+ a b) a (dec count)))))
 
@@ -58,8 +58,26 @@
   ([amount]
    (count-change amount 5))
   ([amount actual-coin]
-    (cond (= amount 0) 1
-          (or (< amount 0) (= actual-coin 0)) 0
+    (cond (zero? amount) 1
+          (or (< amount 0) (zero? actual-coin)) 0
           :else (+ (count-change amount (dec actual-coin))
                    (count-change (- amount (coin-values actual-coin))
                                  actual-coin)))))
+
+;; Exponentiation
+(defn recur-expt [b n]
+  (if (zero? n)
+    1
+    (* b (recur-expt b (dec n)))))
+
+(defn iter-expt
+  ([b n] (iter-expt b n 1))
+  ([b n product]
+    (if (zero? n )
+      product
+      (iter-expt b (dec n) (* b product)))))
+
+(defn recur-fast-expt [b n]
+  (cond (zero? n) 1
+        (even? n) (sqr (recur-fast-expt b (/ n 2)))
+        :else (* b (recur-fast-expt b (dec n)))))

@@ -54,7 +54,7 @@
      n
      (iter-f 0 1 2 (- n 3))))
   ([x y z n]
-   (if (= n 0)
+   (if (zero? n)
      (+ z (* 2 y) (* 3 x))
      (iter-f y z (+ z (* 2 y) (* 3 x)) (dec n)))))
 
@@ -73,3 +73,11 @@
 (defn pascal-line [n]
   (let [f (iterate next-line (list n))]
     (nth f n)))
+
+;; 1.16
+(defn iter-fast-expt
+  ([b n] (iter-fast-expt b n 1))
+  ([b n acum]
+    (cond (zero? n) acum
+          (even? n) (iter-fast-expt (chp1/sqr b) (/ n 2) acum)
+          :else (iter-fast-expt b (dec n) (* acum b)))))
