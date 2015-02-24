@@ -81,3 +81,22 @@
     (cond (zero? n) acum
           (even? n) (iter-fast-expt (chp1/sqr b) (/ n 2) acum)
           :else (iter-fast-expt b (dec n) (* acum b)))))
+
+;; 1.17
+(defn double [n]
+  (+ n n))
+(defn halve [n]
+  (/ n 2))
+
+(defn recur-mult [x y]
+  (cond (zero? y) 0
+        (even? y) (double (recur-mult x (halve y)))
+        :else (+ x (recur-mult x (dec y)))))
+
+;; 1.18
+(defn iter-mult
+  ([x y] (iter-mult x y 0))
+  ([x y acum]
+    (cond (zero? y) acum
+          (even? y) (iter-mult (double x) (halve y) acum)
+          :else (iter-mult x (dec y) (+ acum x)))))
