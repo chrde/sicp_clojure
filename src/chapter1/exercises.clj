@@ -78,9 +78,9 @@
 (defn iter-fast-expt
   ([b n] (iter-fast-expt b n 1))
   ([b n acum]
-    (cond (zero? n) acum
-          (even? n) (iter-fast-expt (chp1/sqr b) (/ n 2) acum)
-          :else (iter-fast-expt b (dec n) (* acum b)))))
+   (cond (zero? n) acum
+         (even? n) (iter-fast-expt (chp1/sqr b) (/ n 2) acum)
+         :else (iter-fast-expt b (dec n) (* acum b)))))
 
 ;; 1.17
 (defn double [n]
@@ -97,6 +97,22 @@
 (defn iter-mult
   ([x y] (iter-mult x y 0))
   ([x y acum]
-    (cond (zero? y) acum
-          (even? y) (iter-mult (double x) (halve y) acum)
-          :else (iter-mult x (dec y) (+ acum x)))))
+   (cond (zero? y) acum
+         (even? y) (iter-mult (double x) (halve y) acum)
+         :else (iter-mult x (dec y) (+ acum x)))))
+
+; 1.19
+(defn fib-iter
+  ([n] (fib-iter 1 0 0 1 n))
+  ([a b p q n]
+   (cond (zero? n) b
+         (even? n) (fib-iter a
+                             b
+                             (+ (chp1/sqr p) (chp1/sqr q))
+                             (+ (* 2 p q) (chp1/sqr q))
+                             (/ n 2))
+         :else (fib-iter (+ (* b q) (* a q) (* a p))
+                         (+ (* b p) (* a q))
+                         p
+                         q
+                         (dec n)))))
