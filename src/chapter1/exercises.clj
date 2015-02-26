@@ -145,3 +145,14 @@
    (cond (> (chp1/sqr test-divisor) n) n
          (zero? (rem n test-divisor)) test-divisor
          :else (recur n (next-divisor test-divisor)))))
+
+;; 1.24
+(defn fermat-prime? [n]
+  [(chp1/fast-prime? n 10) n])
+
+(defn find-n-primes-fermat [start n]
+  (->> (map #(+ start %) (range))
+       (map #(fn [] (fermat-prime? %)))
+       (map measure-time-of)
+       (filter (comp true? first first))
+       (take n)))
