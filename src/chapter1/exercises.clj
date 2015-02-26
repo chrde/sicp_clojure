@@ -156,3 +156,10 @@
        (map measure-time-of)
        (filter (comp true? first first))
        (take n)))
+
+;; 1.27
+(defn full-fermat-test [n]
+  (->> (range n)
+       (map #(chp1/try-it % n))
+       (every? true?)))
+
