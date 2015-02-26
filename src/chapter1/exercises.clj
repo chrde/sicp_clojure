@@ -101,7 +101,7 @@
          (even? y) (iter-mult (double x) (halve y) acum)
          :else (iter-mult x (dec y) (+ acum x)))))
 
-; 1.19
+;; 1.19
 (defn fib-iter
   ([n] (fib-iter 1 0 0 1 n))
   ([a b p q n]
@@ -116,3 +116,32 @@
                          p
                          q
                          (dec n)))))
+
+;; 1.22
+(defn prime? [n]
+  [(chp1/prime? n) n])
+
+(defn measure-time-of [f]
+  (let [a (vector (System/nanoTime) (f) (System/nanoTime))]
+    [(a 1) (- (a 2) (a 0))]))
+
+
+(defn find-n-primes [start n]
+  (->> (map #(+ start %) (range))
+       (map #(fn [] (prime? %)))
+       (map measure-time-of)
+       (filter (comp true? first first))
+       (take n)))
+
+;; 1.23
+(defn next-divisor [n]
+  (if (= 2 n)
+    3
+    (+ 2 n)))
+
+(defn find-divisor
+  ([n] (find-divisor n 2))
+  ([n test-divisor]
+   (cond (> (chp1/sqr test-divisor) n) n
+         (zero? (rem n test-divisor)) test-divisor
+         :else (recur n (next-divisor test-divisor)))))
