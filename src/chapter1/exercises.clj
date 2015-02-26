@@ -163,3 +163,27 @@
        (map #(chp1/try-it % n))
        (every? true?)))
 
+;; 1.28
+(defn non-trivial-sqr [x m]
+  (let [square (rem (chp1/sqr x) m)]
+    (if (and (not= 1 x)
+             (not= x (dec m))
+             (= 1 square))
+      0
+      square)))
+
+(defn miller-rabin-expmod [base exp m]
+  (cond (zero? exp) 1
+        (even? exp) (non-trivial-sqr (miller-rabin-expmod base (/ exp 2) m) m)
+        :else (rem (* base (miller-rabin-expmod base (dec exp) m)) m)))
+
+(defn miller-rabin-test [n]
+  (let [x (miller-rabin-expmod (inc (rand-int (dec n)))
+                               (dec n)
+                               n)]
+    (= 1 x)))
+
+(defn fast-prime-mr? [n times]
+  (cond (zero? times) true
+        (miller-rabin-test n) (fast-prime-mr? n (dec times))
+        :else false))
