@@ -204,3 +204,11 @@
           (yk [k] (f (+ a (* (h) k))))
           (simpson-aprox [k] (* (multiplier k n) (yk k)))]
     (* (/ (h) 3) (sum simpson-aprox 0 inc n))))
+
+;; 1.30
+(defn iter-sum [term a nextt b]
+  (letfn [(iteration [a result]
+                     (if (> a b)
+                       result
+                       (iteration (nextt a) (+ result (term a)))))]
+    (iteration a 0)))
