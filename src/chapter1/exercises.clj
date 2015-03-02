@@ -212,3 +212,19 @@
                        result
                        (iteration (nextt a) (+ result (term a)))))]
     (iteration a 0)))
+
+;; 1.31
+(defn recur-product [term a nextt b]
+  (if (> a b)
+    1
+    (* (term a) (recur-product term (nextt a) nextt b))))
+
+(defn factorial [n]
+  (recur-product identity 1 inc n))
+
+(defn iter-product [term a nextt b]
+  (letfn [(iteration [a result]
+                     (if (> a b)
+                       result
+                       (iteration (nextt a) (* result (term a)))))]
+    (iteration a 1)))
