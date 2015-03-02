@@ -228,3 +228,16 @@
                        result
                        (iteration (nextt a) (* result (term a)))))]
     (iteration a 1)))
+
+;; 1.32
+(defn accumulate [combiner null-value term a nextt b]
+  (if (> a b)
+    null-value
+    (combiner (term a) (accumulate combiner null-value term (nextt a) nextt b))))
+
+(defn accumulate-iter [combiner null-value term a nextt b]
+  (letfn [(iteration [a result]
+                     (if (> a b)
+                       result
+                       (iteration (nextt a) (combiner result (term a)))))]
+    (iteration a null-value)))
