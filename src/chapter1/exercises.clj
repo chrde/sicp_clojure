@@ -241,3 +241,28 @@
                        result
                        (iteration (nextt a) (combiner result (term a)))))]
     (iteration a null-value)))
+
+;; 1.33
+(defn filtered-accumulate [combiner null-value term a nextt b filterr]
+  (let [value (if (filterr a)
+                (term a)
+                null-value)]
+    (if (> a b)
+      null-value
+      (combiner value
+                (filtered-accumulate combiner
+                                     null-value
+                                     term
+                                     (nextt a)
+                                     nextt
+                                     b
+                                     filterr)))))
+
+(defn sum-of-square-of-primes [a b]
+  (filtered-accumulate + 0 chp1/sqr a inc b chp1/prime?))
+
+(defn relative-prime? [a b]
+  (= 1 (chp1/gcd a b)))
+(defn product-of-relative-primes [n]
+  (letfn [(filterr [x] (relative-prime? n x))]
+    (filtered-accumulate * 1 identity 1 inc n filterr)))
