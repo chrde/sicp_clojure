@@ -187,3 +187,20 @@
   (cond (zero? times) true
         (miller-rabin-test n) (fast-prime-mr? n (dec times))
         :else false))
+
+;; 1.29
+(defn sum [term a nextt b]
+  (if (> a b)
+    0
+    (+ (term a)
+       (sum term (nextt a) nextt b))))
+(defn multiplier [k n]
+  (cond (zero? k) 1
+        (= k n) 1
+        (even? k) 2
+        :else 4))
+(defn simpson-rule [f a b n]
+  (letfn [(h [] (/ (- b a) n))
+          (yk [k] (f (+ a (* (h) k))))
+          (simpson-aprox [k] (* (multiplier k n) (yk k)))]
+    (* (/ (h) 3) (sum simpson-aprox 0 inc n))))
