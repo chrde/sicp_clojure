@@ -268,7 +268,32 @@
     (filtered-accumulate * 1 identity 1 inc n filterr)))
 
 ;; 1.35
-(defn golden-ratio-approximation [x]
+(defn golden-ratio-approx [x]
   (+ 1 (/ 1 x)))
+
 (defn golden-ratio [x]
-  (chp1/fixed-point golden-ratio-approximation 1.0))
+  (chp1/fixed-point golden-ratio-approx x))
+
+;; 1.36
+(defn verbose-wrapper [approx-f arg]
+  (let [y (approx-f arg)]
+    (do (println y)
+        y)))
+
+(defn golden-ratio-verbose [x]
+  (let [f (partial verbose-wrapper golden-ratio-approx)]
+    (chp1/fixed-point f 1.0)))
+
+(defn x-square-approx [x]
+  (/ (Math/log 1000) (Math/log x)))
+
+(defn x-square-verbose [x]
+  (let [f (partial verbose-wrapper x-square-approx)]
+    (chp1/fixed-point f x)))
+
+(defn x-square-approx-avg [x]
+  (chp1/average (Math/log 1000) (/ (Math/log 1000) (Math/log x))))
+
+(defn x-square-verbose-avg [x]
+  (let [f (partial verbose-wrapper x-square-approx-avg)]
+    (chp1/fixed-point f x)))
