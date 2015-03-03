@@ -266,3 +266,9 @@
 (defn product-of-relative-primes [n]
   (letfn [(filterr [x] (relative-prime? n x))]
     (filtered-accumulate * 1 identity 1 inc n filterr)))
+
+;; 1.35
+(defn golden-ratio-approximation [x]
+  (+ 1 (/ 1 x)))
+(defn golden-ratio [x]
+  (chp1/fixed-point golden-ratio-approximation 1.0))

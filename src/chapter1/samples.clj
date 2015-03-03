@@ -115,3 +115,33 @@
   (cond (zero? times) true
         (fermat-test n) (fast-prime? n (dec times))
         :else false))
+
+;; Half-interval method
+(defn close-enough? [x y]
+  (< (abs (- x y)) 0.000001))
+
+(defn find-desired-midpoint [f neg-point pos-point]
+  (let [mid-point (average neg-point pos-point)
+        mid-value (f mid-point)]
+    (if (close-enough? neg-point pos-point)
+      mid-point
+      (cond (pos? mid-value) (find-desired-midpoint f neg-point mid-point)
+            (neg? mid-value) (find-desired-midpoint f mid-point pos-point)
+            :else mid-point))))
+
+(defn half-interval [f a b]
+  (let [a-value (f a)
+        b-value (f b)]
+    (cond (and (neg? a-value) (pos? b-value)) (find-desired-midpoint f a b)
+          (and (neg? b-value) (pos? a-value)) (find-desired-midpoint f b a)
+          :else "Error: Values are not of opposite sign")))
+
+;; Fixed points
+(defn fixed-point [f guess]
+  (let [nextt (f guess)]
+    (if (close-enough? nextt guess)
+      nextt
+      (fixed-point f nextt))))
+
+(defn sqrt-fixed-point [x]
+  (fixed-point #(average % (/ x %)) 1.0))
