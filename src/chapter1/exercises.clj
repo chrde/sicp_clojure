@@ -314,3 +314,9 @@
     (if (> i k)
       0.0
       (/ (n k) (+ (d k) (cont-frac-recur n d k (inc i)))))))
+
+;; 1.38
+(defn d [i]
+  (if (= 2 (mod i 3))
+    (* 2 (inc (quot i 3)))
+    1))
