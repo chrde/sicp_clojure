@@ -297,3 +297,20 @@
 (defn x-square-verbose-avg [x]
   (let [f (partial verbose-wrapper x-square-approx-avg)]
     (chp1/fixed-point f x)))
+
+;; 1.37
+(defn cont-frac
+  ([n d k]
+   (cont-frac n d k 0.0))
+  ([n d k acc]
+   (if (zero? k)
+     acc
+     (cont-frac n d (dec k) (/ (n k) (+ (d k) acc))))))
+
+(defn cont-frac-recur
+  ([n d k]
+    (cont-frac-recur n d k 1))
+  ([n d k i]
+    (if (> i k)
+      0.0
+      (/ (n k) (+ (d k) (cont-frac-recur n d k (inc i)))))))
