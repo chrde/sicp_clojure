@@ -316,7 +316,21 @@
       (/ (n k) (+ (d k) (cont-frac-recur n d k (inc i)))))))
 
 ;; 1.38
-(defn d [i]
+(defn d-eulers-expansion [i]
   (if (= 2 (mod i 3))
     (* 2 (inc (quot i 3)))
     1))
+
+;; 1.39
+(defn d-lambert [i]
+  (dec (* 2 i)))
+
+(defn n-lambert [x i]
+  (if (= 1 i)
+    x
+    (chp1/sqr x)))
+
+(defn tan-cf [x k]
+  (cont-frac (partial n-lambert x)
+             d-lambert
+             k))
