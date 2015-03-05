@@ -345,3 +345,7 @@
 ;; 1.41
 (defn execute-twice [f]
   (fn [x] (f (f x))))
+
+;; 1.42
+(defn compose [f g]
+  (fn [x] (f (g x))))
