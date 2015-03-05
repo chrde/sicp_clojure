@@ -1,5 +1,5 @@
 (ns chapter1.exercises
-  (:require [chapter1.samples :as chp1]))
+  (:require [chapter1.samples :as ch1]))
 
 ;; 1.2
 (/ (+ 5 4 (- 2 (- 3 (+ 6 (/ 4 5)))))
@@ -9,30 +9,30 @@
 (defn sqr-of-maxs [x y z]
   (let [a (min x y z)]
     (reduce + (conj
-                (map chp1/sqr [x y z])
-                (- (chp1/sqr a))))))
+                (map ch1/sqr [x y z])
+                (- (ch1/sqr a))))))
 
 ;; 1.7
 (defn improved-enough? [x y]
-  (< (chp1/abs (- x y)) 0.001))
+  (< (ch1/abs (- x y)) 0.001))
 (defn improved-sqr-iter
   ([guess n]
    (improved-sqr-iter guess n 0))
   ([guess n previous]
-   (if (and (chp1/good-enough? guess n)
+   (if (and (ch1/good-enough? guess n)
             (improved-enough? guess previous))
      guess
-     (recur (chp1/improve guess n) n guess))))
+     (recur (ch1/improve guess n) n guess))))
 
 ;; 1.8
 (defn cube [x]
   (Math/pow x 3))
 
 (defn good-enough? [guess n]
-  (< (chp1/abs (- (cube guess) n)) 0.001))
+  (< (ch1/abs (- (cube guess) n)) 0.001))
 
 (defn improve-cube [guess n]
-  (/ (+ (* 2 guess) (/ n (chp1/sqr guess)))
+  (/ (+ (* 2 guess) (/ n (ch1/sqr guess)))
      3))
 
 (defn cube-iter [guess n]
@@ -79,7 +79,7 @@
   ([b n] (iter-fast-expt b n 1))
   ([b n acum]
    (cond (zero? n) acum
-         (even? n) (iter-fast-expt (chp1/sqr b) (/ n 2) acum)
+         (even? n) (iter-fast-expt (ch1/sqr b) (/ n 2) acum)
          :else (iter-fast-expt b (dec n) (* acum b)))))
 
 ;; 1.17
@@ -108,8 +108,8 @@
    (cond (zero? n) b
          (even? n) (fib-iter a
                              b
-                             (+ (chp1/sqr p) (chp1/sqr q))
-                             (+ (* 2 p q) (chp1/sqr q))
+                             (+ (ch1/sqr p) (ch1/sqr q))
+                             (+ (* 2 p q) (ch1/sqr q))
                              (/ n 2))
          :else (fib-iter (+ (* b q) (* a q) (* a p))
                          (+ (* b p) (* a q))
@@ -119,7 +119,7 @@
 
 ;; 1.22
 (defn prime? [n]
-  [(chp1/prime? n) n])
+  [(ch1/prime? n) n])
 
 (defn measure-time-of [f]
   (let [a (vector (System/nanoTime) (f) (System/nanoTime))]
@@ -142,13 +142,13 @@
 (defn find-divisor
   ([n] (find-divisor n 2))
   ([n test-divisor]
-   (cond (> (chp1/sqr test-divisor) n) n
+   (cond (> (ch1/sqr test-divisor) n) n
          (zero? (rem n test-divisor)) test-divisor
          :else (recur n (next-divisor test-divisor)))))
 
 ;; 1.24
 (defn fermat-prime? [n]
-  [(chp1/fast-prime? n 10) n])
+  [(ch1/fast-prime? n 10) n])
 
 (defn find-n-primes-fermat [start n]
   (->> (map #(+ start %) (range))
@@ -160,12 +160,12 @@
 ;; 1.27
 (defn full-fermat-test [n]
   (->> (range n)
-       (map #(chp1/try-it % n))
+       (map #(ch1/try-it % n))
        (every? true?)))
 
 ;; 1.28
 (defn non-trivial-sqr [x m]
-  (let [square (rem (chp1/sqr x) m)]
+  (let [square (rem (ch1/sqr x) m)]
     (if (and (not= 1 x)
              (not= x (dec m))
              (= 1 square))
@@ -259,10 +259,10 @@
                                      filterr)))))
 
 (defn sum-of-square-of-primes [a b]
-  (filtered-accumulate + 0 chp1/sqr a inc b chp1/prime?))
+  (filtered-accumulate + 0 ch1/sqr a inc b ch1/prime?))
 
 (defn relative-prime? [a b]
-  (= 1 (chp1/gcd a b)))
+  (= 1 (ch1/gcd a b)))
 (defn product-of-relative-primes [n]
   (letfn [(filterr [x] (relative-prime? n x))]
     (filtered-accumulate * 1 identity 1 inc n filterr)))
@@ -272,7 +272,7 @@
   (+ 1 (/ 1 x)))
 
 (defn golden-ratio [x]
-  (chp1/fixed-point golden-ratio-approx x))
+  (ch1/fixed-point golden-ratio-approx x))
 
 ;; 1.36
 (defn verbose-wrapper [approx-f arg]
@@ -282,21 +282,21 @@
 
 (defn golden-ratio-verbose [x]
   (let [f (partial verbose-wrapper golden-ratio-approx)]
-    (chp1/fixed-point f 1.0)))
+    (ch1/fixed-point f 1.0)))
 
 (defn x-square-approx [x]
   (/ (Math/log 1000) (Math/log x)))
 
 (defn x-square-verbose [x]
   (let [f (partial verbose-wrapper x-square-approx)]
-    (chp1/fixed-point f x)))
+    (ch1/fixed-point f x)))
 
 (defn x-square-approx-avg [x]
-  (chp1/average (Math/log 1000) (/ (Math/log 1000) (Math/log x))))
+  (ch1/average (Math/log 1000) (/ (Math/log 1000) (Math/log x))))
 
 (defn x-square-verbose-avg [x]
   (let [f (partial verbose-wrapper x-square-approx-avg)]
-    (chp1/fixed-point f x)))
+    (ch1/fixed-point f x)))
 
 ;; 1.37
 (defn cont-frac
@@ -309,11 +309,11 @@
 
 (defn cont-frac-recur
   ([n d k]
-    (cont-frac-recur n d k 1))
+   (cont-frac-recur n d k 1))
   ([n d k i]
-    (if (> i k)
-      0.0
-      (/ (n k) (+ (d k) (cont-frac-recur n d k (inc i)))))))
+   (if (> i k)
+     0.0
+     (/ (n k) (+ (d k) (cont-frac-recur n d k (inc i)))))))
 
 ;; 1.38
 (defn d-eulers-expansion [i]
@@ -328,7 +328,7 @@
 (defn n-lambert [x i]
   (if (= 1 i)
     x
-    (chp1/sqr x)))
+    (ch1/sqr x)))
 
 (defn tan-cf [x k]
   (cont-frac (partial n-lambert x)
@@ -338,7 +338,7 @@
 ;; 1.40
 (defn cubic [a b c]
   (fn [x] (+ (cube x)
-             (* a (chp1/sqr x))
+             (* a (ch1/sqr x))
              (* b x)
              c)))
 
@@ -369,3 +369,30 @@
   ((repeated smooth n) f))
 
 ;; 1.45
+(defn nth-average [n]
+  (repeated ch1/average-damp n))
+
+(defn log2 [x]
+  (/ (Math/log x) (Math/log 2)))
+
+(defn nth-root [x n]
+  (let [times (int (log2 n))]
+    (ch1/fixed-point ((nth-average times)
+                       (fn [y] (/ x (Math/pow y (dec n)))))
+                     1.0)))
+
+;; 1.46
+(defn iterative-improve [good-enough? improve-guess]
+  (fn [guess]
+    (let [next (improve-guess guess)]
+      (if (good-enough? guess next)
+        next
+        (recur next)))))
+
+(defn sqr-iterative-improve [x]
+  ((iterative-improve ch1/good-enough? (partial ch1/improve 1.0))
+    x))
+
+(defn fixed-point-iterative-improve [f first-guess]
+  ((iterative-improve ch1/close-enough? f)
+    first-guess))

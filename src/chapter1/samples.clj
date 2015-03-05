@@ -143,8 +143,16 @@
       nextt
       (fixed-point f nextt))))
 
+(defn average-damp [f]
+  (fn [x] (average x (f x))))
+
 (defn sqrt-fixed-point [x]
-  (fixed-point #(average % (/ x %)) 1.0))
+  (fixed-point (average-damp (fn [y] (/ x y)))
+               1.0))
+
+(defn cube-root-fixed-point [x]
+  (fixed-point (average-damp (fn [y] (/ x (sqr y))))
+               1.0))
 
 ;; Newton's method
 (defn derivee [f]
