@@ -349,3 +349,23 @@
 ;; 1.42
 (defn compose [f g]
   (fn [x] (f (g x))))
+
+;; 1.43
+(defn repeated [f n]
+  (if (= 1 n)
+    f
+    (compose f (repeated f (dec n)))))
+
+;; 1.44
+(defn smooth [f]
+  (let [dx 0.00001]
+    (fn [x]
+      (/ (+ (f (+ x dx))
+            (f (- x dx))
+            (f x))
+         3))))
+
+(defn n-fold-smoothed [f n]
+  ((repeated smooth n) f))
+
+;; 1.45
