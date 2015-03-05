@@ -145,3 +145,22 @@
 
 (defn sqrt-fixed-point [x]
   (fixed-point #(average % (/ x %)) 1.0))
+
+;; Newton's method
+(defn derive [f]
+  (let [dx 0.00001]
+    (fn [x] (/ (- (f (+ x dx))
+                  (f x))
+               dx))))
+
+(defn newton-transform [f]
+  (fn [x] (- x
+             (/ (f x)
+                ((derive f) x)))))
+
+(defn newton-method [f initial]
+  (fixed-point (newton-transform f) initial))
+
+(defn newton-method-sqrt [x]
+  (newton-method (fn [y] (- (sqr y) x))
+                 1.0))

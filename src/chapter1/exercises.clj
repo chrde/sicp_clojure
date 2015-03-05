@@ -83,14 +83,14 @@
          :else (iter-fast-expt b (dec n) (* acum b)))))
 
 ;; 1.17
-(defn double [n]
+(defn doublee [n]
   (+ n n))
 (defn halve [n]
   (/ n 2))
 
 (defn recur-mult [x y]
   (cond (zero? y) 0
-        (even? y) (double (recur-mult x (halve y)))
+        (even? y) (doublee (recur-mult x (halve y)))
         :else (+ x (recur-mult x (dec y)))))
 
 ;; 1.18
@@ -98,7 +98,7 @@
   ([x y] (iter-mult x y 0))
   ([x y acum]
    (cond (zero? y) acum
-         (even? y) (iter-mult (double x) (halve y) acum)
+         (even? y) (iter-mult (doublee x) (halve y) acum)
          :else (iter-mult x (dec y) (+ acum x)))))
 
 ;; 1.19
@@ -334,3 +334,10 @@
   (cont-frac (partial n-lambert x)
              d-lambert
              k))
+
+;; 1.40
+(defn cubic [a b c]
+  (fn [x] (+ (cube x)
+             (* a (chp1/sqr x))
+             (* b x)
+             c)))
