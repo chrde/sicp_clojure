@@ -341,3 +341,7 @@
              (* a (chp1/sqr x))
              (* b x)
              c)))
+
+;; 1.41
+(defn execute-twice [f]
+  (fn [x] (f (f x))))

@@ -147,7 +147,7 @@
   (fixed-point #(average % (/ x %)) 1.0))
 
 ;; Newton's method
-(defn derive [f]
+(defn derivee [f]
   (let [dx 0.00001]
     (fn [x] (/ (- (f (+ x dx))
                   (f x))
@@ -156,7 +156,7 @@
 (defn newton-transform [f]
   (fn [x] (- x
              (/ (f x)
-                ((derive f) x)))))
+                ((derivee f) x)))))
 
 (defn newton-method [f initial]
   (fixed-point (newton-transform f) initial))
