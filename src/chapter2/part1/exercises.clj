@@ -1,6 +1,7 @@
 (ns chapter2.part1.exercises
   (:require [chapter2.part1.samples :as ch2.1]
-            [chapter1.samples :as ch1]))
+            [chapter1.samples :as ch1]
+            [chapter1.exercises :as ch1e]))
 
 ;; 2.1
 ;;ch2.1/make-rat
@@ -63,3 +64,26 @@
 
 (defn cdr [z]
   (z (fn [_ q] q)))
+
+;; 2.5
+(defn remove-mult-of
+  ([x mult] (remove-mult-of x mult 0))
+  ([x mult acc]
+   (let [next-x (quot x mult)]
+     (if (zero? (rem x mult))
+       (remove-mult-of next-x mult (inc acc))
+       [x acc]))))
+
+(defn cons-exp [a b]
+  (* (Math/pow 2 a)
+     (Math/pow 3 b)))
+
+(defn car-exp [x]
+  (let [[y z] (remove-mult-of x 6)
+        [_ n] (remove-mult-of y 2)]
+    (+ n z)))
+
+(defn cdr-exp [x]
+  (let [[y z] (remove-mult-of x 6)
+        [_ n] (remove-mult-of y 3)]
+    (+ n z)))
