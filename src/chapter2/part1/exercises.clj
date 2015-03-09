@@ -155,3 +155,18 @@
 
 (defn spans-zero? [interval]
   (<= (product interval) 0))
+
+;; 2.12
+(defn center [i]
+  (/ (+ (lower-bound i)
+        (upper-bound i))
+     2))
+
+(defn make-center-percent [c p]
+  (let [percent (/ (* p c) 100)]
+    (make-interval (- c percent)
+                   (+ c percent))))
+
+(defn percent [i]
+  (let [c (center i)]
+    (* 100 (dec (/ c (lower-bound i))))))
