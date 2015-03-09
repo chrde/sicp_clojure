@@ -87,3 +87,28 @@
   (let [[y z] (remove-mult-of x 6)
         [_ n] (remove-mult-of y 3)]
     (+ n z)))
+
+;; 2.6
+(defn zero [f]
+  (fn [x] x))
+
+(defn church-next [n]
+  (fn [f]
+    (fn [x]
+      (f ((n f) x)))))
+
+(defn one [f]
+  (fn [x] (f x)))
+
+(defn two [f]
+  (fn [x] (f (f x))))
+
+(defn church+ [a b]
+  (fn [f]
+    (fn [x]
+      ((b f) ((a f) x)))))
+
+(defn church* [a b]
+  (fn [f]
+    (fn [x]
+      ((b (a f)) x))))
