@@ -147,3 +147,11 @@
   (add-interval x
                 (make-interval (- (lower-bound y))
                                (- (upper-bound y)))))
+
+;; 2.10
+(defn product [interval]
+  (* (car interval)
+     (cdr interval)))
+
+(defn spans-zero? [interval]
+  (<= (product interval) 0))
