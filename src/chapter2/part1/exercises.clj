@@ -49,3 +49,7 @@
      (length-segment (r 1))
      (length-segment (r 2))
      (length-segment (r 3))))
+
+(defn area-rectangle [r]
+  (* (length-segment (r 0))
+     (length-segment (r 1))))
