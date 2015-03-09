@@ -53,3 +53,13 @@
 (defn area-rectangle [r]
   (* (length-segment (r 0))
      (length-segment (r 1))))
+
+;; 2.4
+(defn conss [x y]
+  (fn [m] (m x y)))
+
+(defn car [z]
+  (z (fn [p _] p)))
+
+(defn cdr [z]
+  (z (fn [_ q] q)))
