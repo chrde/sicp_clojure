@@ -32,3 +32,18 @@
                    (count-change (- amount (first-denomination coin-values)) coin-values))))
 
 ;; 2.20
+(defn parity [x]
+  (cond (zero? x) (fn [_] (and false _))
+        (even? x) even?
+        :else odd?))
+
+(defn add-same-parity [f l]
+  (cond (nil? (ch2/car l)) '()
+        (f (ch2/car l)) (cons (ch2/car l) (add-same-parity f (ch2/cdr l)))
+        :else (add-same-parity f (ch2/cdr l))))
+
+(defn same-parity [& args]
+  (if (nil? args)
+    '()
+    (add-same-parity (parity (ch2/car args))
+                     args)))

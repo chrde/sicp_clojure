@@ -17,18 +17,33 @@
                '() '())))
 
 (deftest count-change-test
-  (testing "2.19 estimated time to count change"
+  (testing "2.19 - estimated time to count change"
     (is (= (count-change 100 '(50 25 10 5 1))
            (count-change 100 '(1 5 10 25 50))
            292)))
-  (testing "2.19 no-more?"
+  (testing "2.19 - no-more?"
     (is (no-more? '()))
     (is (not (no-more? '(1)))))
-  (testing "2.19 except-first-denomination"
+  (testing "2.19 - except-first-denomination"
     (are [x y] (= x (except-first-denomination y))
                nil '(1)
                '(2) '(1 2)))
-  (testing "2.19 first-denomination"
+  (testing "2.19 - first-denomination"
     (are [x y] (= x (first-denomination y))
                nil '()
                1 '(1 2))))
+
+(deftest same-parity-test
+  (testing "2.20 - parity of x"
+    (is (= even? (parity 2)))
+    (is (= odd? (parity 1)))
+    (is (false? ((parity 0) 1)) "0 has no parity")
+    (is (false? ((parity 0) 2)) "0 has no parity"))
+  (testing "2.20 - same parity as the first argument"
+    (are [x y] (= x (apply same-parity y))
+               '() nil
+               '() '()
+               '() '(0)
+               '(2 4 6) '(2 3 4 5 6 7)
+               '(1 3 5 7) '(1 2 3 4 5 6 7))))
+(run-tests)
