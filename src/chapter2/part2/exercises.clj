@@ -8,17 +8,16 @@
     (last-pair (ch2/cdr l))))
 
 ;; 2.18
-(defn reverse
-  ([l] (reverse l (empty l)))
+(defn reverse-
+  ([l] (reverse- l (empty l)))
   ([l r-l]
     (if (nil? (ch2/car l))
       r-l
-      (reverse (ch2/cdr l) (cons (ch2/car l) r-l)))))
+      (reverse- (ch2/cdr l) (cons (ch2/car l) r-l)))))
 
 ;; 2.19
 (defn no-more? [l]
   (zero? (ch2/length l)))
-
 
 (defn except-first-denomination [coin-values]
   (ch2/cdr coin-values))
@@ -31,3 +30,5 @@
         (or (< amount 0) (no-more? coin-values)) 0
         :else (+ (count-change amount (except-first-denomination coin-values))
                    (count-change (- amount (first-denomination coin-values)) coin-values))))
+
+;; 2.20

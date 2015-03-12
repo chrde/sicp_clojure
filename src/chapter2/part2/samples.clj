@@ -12,7 +12,7 @@
     (list-ref (cdr l) (dec n))))
 
 (defn length [l]
-  (if (nil? l)
+  (if (nil? (car l))
     0
     (inc (length (cdr l)))))
 
