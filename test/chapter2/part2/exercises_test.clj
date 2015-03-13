@@ -56,7 +56,7 @@
 
 
 (deftest for-each-test
-  (testing "2.22 for each"
+  (testing "2.23 for each"
     (let [input (range 4)
           x (atom (chapter2.part2.samples/length input))]
       (dorun (for-each (fn [_] (swap! x dec)) input))
