@@ -73,3 +73,14 @@
     (is (= (list (list 4 3) (list 2 1))
            (deep-reverse (list (list 1 2) (list 3 4)))
            (deep-reverse- (list (list 1 2) (list 3 4)))))))
+
+(deftest fringe-test
+  (testing "2.28 - fringe (or flatten) a tree")
+  (is (= '()
+         (fringe '())))
+  (is (= (range 10)
+         (fringe (list 0 1 2 (list 3 4 (list 5 (list (list 6)))) 7 8 (list 9)))))
+  (is (= '(1)
+         (fringe (list (list (list (list 1))))))))
+
+;(run-tests)

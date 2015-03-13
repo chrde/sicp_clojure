@@ -11,9 +11,9 @@
 (defn reverse-
   ([l] (reverse- l (empty l)))
   ([l r-l]
-    (if (nil? (ch2/car l))
-      r-l
-      (reverse- (ch2/cdr l) (cons (ch2/car l) r-l)))))
+   (if (nil? (ch2/car l))
+     r-l
+     (reverse- (ch2/cdr l) (cons (ch2/car l) r-l)))))
 
 ;; 2.19
 (defn no-more? [l]
@@ -29,7 +29,7 @@
   (cond (zero? amount) 1
         (or (< amount 0) (no-more? coin-values)) 0
         :else (+ (count-change amount (except-first-denomination coin-values))
-                   (count-change (- amount (first-denomination coin-values)) coin-values))))
+                 (count-change (- amount (first-denomination coin-values)) coin-values))))
 
 ;; 2.20
 (defn parity [x]
@@ -94,11 +94,19 @@
 (defn deep-reverse
   ([l] (deep-reverse l (empty l)))
   ([l r-l]
-    (cond (nil? (ch2/car l)) r-l
-          (not (coll? (ch2/car l))) (deep-reverse (ch2/cdr l) (cons (ch2/car l) r-l))
-          :else (deep-reverse (ch2/cdr l) (cons (deep-reverse (ch2/car l)) r-l)))))
+   (cond (nil? (ch2/car l)) r-l
+         (not (coll? (ch2/car l))) (deep-reverse (ch2/cdr l) (cons (ch2/car l) r-l))
+         :else (deep-reverse (ch2/cdr l) (cons (deep-reverse (ch2/car l)) r-l)))))
 
 (defn deep-reverse- [l]
   (if (coll? l)
-    (reverse (ch2/map- deep-reverse- l))
+    (reverse- (ch2/map- deep-reverse- l))
     l))
+
+;; 2.28
+(defn fringe
+  ([l] (fringe l '()))
+  ([l r-l]
+    (cond (nil? l) r-l
+          (not (coll? l)) (cons l r-l)
+          :else (fringe (ch2/car l) (fringe (ch2/cdr l) r-l)))))
