@@ -28,3 +28,9 @@
     (cons (proc (car items))
           (map proc (cdr items)))))
 
+(defn count-leaves [x]
+  (cond (nil? x) 0
+        (not (coll? x)) 1
+        :else (+ (count-leaves (car x))
+                 (count-leaves (cdr x)))))
+

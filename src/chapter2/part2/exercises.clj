@@ -59,3 +59,46 @@
 
 ;; 2.23
 (def for-each ch2/map-)
+
+;; 2.25
+(defn first-car-cdr [l]
+  (-> l
+      ch2/cdr
+      ch2/cdr
+      ch2/car
+      ch2/cdr
+      ch2/car))
+
+(defn second-car-cdr [l]
+  (-> l
+      ch2/car
+      ch2/car))
+
+(defn third-car-cdr [l]
+  (-> l
+      ch2/cdr
+      ch2/car
+      ch2/cdr
+      ch2/car
+      ch2/cdr
+      ch2/car
+      ch2/cdr
+      ch2/car
+      ch2/cdr
+      ch2/car
+      ch2/cdr
+      ch2/car
+      ))
+
+;; 2.27
+(defn deep-reverse
+  ([l] (deep-reverse l (empty l)))
+  ([l r-l]
+    (cond (nil? (ch2/car l)) r-l
+          (not (coll? (ch2/car l))) (deep-reverse (ch2/cdr l) (cons (ch2/car l) r-l))
+          :else (deep-reverse (ch2/cdr l) (cons (deep-reverse (ch2/car l)) r-l)))))
+
+(defn deep-reverse- [l]
+  (if (coll? l)
+    (reverse (ch2/map- deep-reverse- l))
+    l))

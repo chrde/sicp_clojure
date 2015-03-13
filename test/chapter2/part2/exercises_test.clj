@@ -62,4 +62,14 @@
       (dorun (for-each (fn [_] (swap! x dec)) input))
       (is (zero? @x)))))
 
-(run-tests)
+(deftest car-cdrs-in-tree-test
+  (testing "2.25 - examples of car/cdr in trees"
+    (is (= 7 (first-car-cdr (list 1 3 (list 5 7) 9))))
+    (is (= 7 (second-car-cdr (list (list 7)))))
+    (is (= 7 (third-car-cdr (list 1 (list 2 (list 3 (list 4 (list 5 (list 6 7)))))))))))
+
+(deftest deep-reverse-test
+  (testing "2.27 - deep reverse of trees"
+    (is (= (list (list 4 3) (list 2 1))
+           (deep-reverse (list (list 1 2) (list 3 4)))
+           (deep-reverse- (list (list 1 2) (list 3 4)))))))
