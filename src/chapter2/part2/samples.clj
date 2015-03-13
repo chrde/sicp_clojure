@@ -21,3 +21,10 @@
     l2
     (cons (car l1) (append (cdr l1) l2))
     ))
+
+(defn map- [proc items]
+  (if (nil? items)
+    nil
+    (cons (proc (car items))
+          (map proc (cdr items)))))
+

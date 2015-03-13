@@ -47,3 +47,15 @@
     '()
     (add-same-parity (parity (ch2/car args))
                      args)))
+
+;; 2.21
+(defn square-list-recur [l]
+  (if (nil? l)
+    '()
+    (cons (chapter1.samples/sqr (ch2/car l)) (square-list-recur (ch2/cdr l)))))
+
+(defn square-list [l]
+  (ch2/map- chapter1.samples/sqr l))
+
+;; 2.23
+(def for-each ch2/map-)

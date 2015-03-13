@@ -46,4 +46,20 @@
                '() '(0)
                '(2 4 6) '(2 3 4 5 6 7)
                '(1 3 5 7) '(1 2 3 4 5 6 7))))
+
+(deftest square-list-test
+  (testing "2.21 - square of a list with different implementations"
+    (is (= (square-list-recur '(1 2 3 4))
+           '(1 4 9 16)))
+    (is (= (square-list '(1 2 3 4))
+           '(1 4 9 16)))))
+
+
+(deftest for-each-test
+  (testing "2.22 for each"
+    (let [input (range 4)
+          x (atom (chapter2.part2.samples/length input))]
+      (dorun (for-each (fn [_] (swap! x dec)) input))
+      (is (zero? @x)))))
+
 (run-tests)
