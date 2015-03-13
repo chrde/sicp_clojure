@@ -54,7 +54,6 @@
     (is (= (square-list '(1 2 3 4))
            '(1 4 9 16)))))
 
-
 (deftest for-each-test
   (testing "2.23 for each"
     (let [input (range 4)
@@ -83,4 +82,41 @@
   (is (= '(1)
          (fringe (list (list (list (list 1))))))))
 
-;(run-tests)
+(deftest binary-mobile-test
+  (let [branch1 (make-branch 2 4)
+        branch2 (make-branch 4 2)
+        mobile1 (make-mobile branch1 branch2)
+        left (make-branch 0 mobile1)
+        right (make-branch 1 2)
+        mobile (make-mobile left right)]
+    (testing "2.29 - binary mobile - selectors"
+      (is (= left (left-branch mobile))
+          "2.29 - left branch selector")
+      (is (= right (right-branch mobile))
+          "2.29 - right branch selector")
+      (is (= 1 (branch-length right))
+          "2.29 - branch length")
+      (is (= 2 (branch-structure right))
+          "2.29 - branch structure "))
+    (testing "2.29 - binary mobile - total weight"
+      (is (= (+ (branch-structure branch1)
+                (branch-structure branch2))
+             (total-weight mobile1))
+          "2.29 - weight of mobile without nested branches")
+      (is (= (+ (branch-structure branch1)
+                (branch-structure branch2)
+                (branch-structure right))
+             (total-weight mobile))
+          "2.29 - weight of a complex mobile")
+      (testing "2.29 - balanced mobile"
+        (is (true? (balanced-structure? mobile1))
+            "2.29 - simple balanced mobile")
+        (is (false? (balanced-structure? (make-mobile branch1 right))))
+        (is false "2.29 - simple unbalanced mobile because of weight")
+        (is false "2.29 - simple unbalanced mobile because of length")
+        (is false "2.29 - nested balanced mobile")
+        (is false "2.29 - nested unbalanced mobile because of weight")
+        (is false "2.29 - nested unbalanced mobile because of length")
+        ))))
+
+(run-tests)

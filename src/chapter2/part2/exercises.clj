@@ -107,6 +107,45 @@
 (defn fringe
   ([l] (fringe l '()))
   ([l r-l]
-    (cond (nil? l) r-l
-          (not (coll? l)) (cons l r-l)
-          :else (fringe (ch2/car l) (fringe (ch2/cdr l) r-l)))))
+   (cond (nil? l) r-l
+         (not (coll? l)) (cons l r-l)
+         :else (fringe (ch2/car l) (fringe (ch2/cdr l) r-l)))))
+
+;; 2.29
+(defn make-mobile [left right]
+  (list left right))
+
+(defn make-branch [length structure]
+  (list length structure))
+
+(defn left-branch [mobile]
+  (ch2/car mobile))
+
+(defn right-branch [mobile]
+  (ch2/car (ch2/cdr mobile)))
+
+(defn branch-length [branch]
+  (ch2/car branch))
+
+(defn branch-structure [branch]
+  (ch2/car (ch2/cdr branch)))
+
+(defn total-weight [structure]
+  (if (coll? structure)
+    (+ (total-weight (branch-structure (left-branch structure)))
+       (total-weight (branch-structure (right-branch structure))))
+    structure))
+
+(defn torque [branch]
+  (* (branch-length branch)
+     (total-weight (branch-structure branch))))
+
+(defn balanced-structure? [structure]
+  (if (not (coll? structure))
+    true
+    (let [right (right-branch structure)
+          left (left-branch structure)]
+      (and (= (torque left)
+              (torque right))
+           (balanced-structure? (branch-structure left))
+           (balanced-structure? (branch-structure right))))))
