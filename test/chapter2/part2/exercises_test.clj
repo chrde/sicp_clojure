@@ -150,4 +150,8 @@
         "2.33 - length based on accumulate")
     (is (= '(1 2 3 4) (append-acc (list 1 2) (list 3 4)))
         "2.33 - append based on accumulate")))
+
+(deftest horner-eval-test
+  (testing "2.34 - Horner's rule"
+    (is (= 79 (horner-eval 2 (list 1 3 0 5 0 1))))))
 (run-tests)

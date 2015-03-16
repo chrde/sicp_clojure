@@ -190,3 +190,10 @@
 
 (defn length-acc [seq]
   (ch2/accumulate- (fn [_ y] (inc y)) 0 seq))
+
+;; 2.34
+(defn horner-eval [x coef-seq]
+  (ch2/accumulate- (fn [coef higher-terms]
+                     (+ coef (* x higher-terms)))
+                   0
+                   coef-seq))
