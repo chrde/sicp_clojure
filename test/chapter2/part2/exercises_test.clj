@@ -164,4 +164,16 @@
     (is (= '(22 26 30)
            (accumulate-n + 0 (list (list 1 2 3) (list 4 5 6) (list 7 8 9) (list 10 11 12)))))))
 
+(deftest matrix-operations-test
+  (testing "2.37 - matrix operations"
+    (is (= 32 (dot-product (list 1 2 3) (list 4 5 6))) "2.37 - dot product")
+    (is (= '(14 22) (matrix-*-vector (list (list 3 4) (list 5 6)) (list 2 2)))
+        "2.37 - matrix * vector")
+    (is (= (list (list 1 3 5) (list 2 4 6)) (transpose (list (list 1 2) (list 3 4) (list 5 6))))
+        "2.37 - transpose a matrix")
+    (is (= (list (list 20 -22 22) (list -32 1 -1))
+           (matrix-*-matrix (list (list 6 4) (list -2 5))
+                            (list (list 6 -3 3) (list -4 -1 1))))
+        "2.37 - matrix * matrix")
+    ))
 (run-tests)

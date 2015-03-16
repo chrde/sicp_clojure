@@ -211,3 +211,18 @@
     nil
     (cons (ch2/accumulate- op init (ch2/map- ch2/car seqs))
           (accumulate-n op init (ch2/map- ch2/cdr seqs)))))
+
+;; 2.37
+(defn dot-product [v w]
+  (ch2/accumulate- + 0 (map * v w)))
+
+(defn matrix-*-vector [m v]
+  (ch2/map- (fn [w] (dot-product w v))
+            m))
+
+(defn transpose [m]
+  (accumulate-n cons '() m))
+
+(defn matrix-*-matrix [m n]
+  (let [cols (transpose n)]
+    (map (fn [w] (matrix-*-vector cols w)) m)))
