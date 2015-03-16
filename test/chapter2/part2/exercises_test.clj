@@ -159,4 +159,9 @@
   (testing "2.35 - count leaves based on accumulate"
     (is (= 4 (count-leaves-acc (list (list 1 (list (list (list 2)) (list 3 4)))))))))
 
+(deftest accumulate-n-test
+  (testing "2.36 - accumulate with many sequences"
+    (is (= '(22 26 30)
+           (accumulate-n + 0 (list (list 1 2 3) (list 4 5 6) (list 7 8 9) (list 10 11 12)))))))
+
 (run-tests)

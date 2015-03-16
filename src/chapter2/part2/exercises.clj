@@ -204,3 +204,10 @@
                    0
                    (ch2/map- (fn [x] (if (coll? x) (count-leaves-acc x) 1))
                                  tree)))
+
+;; 2.36
+(defn accumulate-n [op init seqs]
+  (if (nil? (ch2/car seqs))
+    nil
+    (cons (ch2/accumulate- op init (ch2/map- ch2/car seqs))
+          (accumulate-n op init (ch2/map- ch2/cdr seqs)))))
