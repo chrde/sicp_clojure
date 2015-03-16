@@ -154,4 +154,9 @@
 (deftest horner-eval-test
   (testing "2.34 - Horner's rule"
     (is (= 79 (horner-eval 2 (list 1 3 0 5 0 1))))))
+
+(deftest count-leaves-acc-test
+  (testing "2.35 - count leaves based on accumulate"
+    (is (= 4 (count-leaves-acc (list (list 1 (list (list (list 2)) (list 3 4)))))))))
+
 (run-tests)

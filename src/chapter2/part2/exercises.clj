@@ -186,7 +186,7 @@
                    sec))
 
 (defn append-acc [seq1 seq2]
-  (ch2/accumulate- cons seq2 seq1 ))
+  (ch2/accumulate- cons seq2 seq1))
 
 (defn length-acc [seq]
   (ch2/accumulate- (fn [_ y] (inc y)) 0 seq))
@@ -197,3 +197,10 @@
                      (+ coef (* x higher-terms)))
                    0
                    coef-seq))
+
+;; 2.35
+(defn count-leaves-acc [tree]
+  (ch2/accumulate- +
+                   0
+                   (ch2/map- (fn [x] (if (coll? x) (count-leaves-acc x) 1))
+                                 tree)))
