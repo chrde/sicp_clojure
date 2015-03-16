@@ -56,3 +56,4 @@
         (not (coll? tree)) (list tree)
         :else (append (enumerate-tree (car tree))
                       (enumerate-tree (cdr tree)))))
+

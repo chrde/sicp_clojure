@@ -203,7 +203,7 @@
   (ch2/accumulate- +
                    0
                    (ch2/map- (fn [x] (if (coll? x) (count-leaves-acc x) 1))
-                                 tree)))
+                             tree)))
 
 ;; 2.36
 (defn accumulate-n [op init seqs]
@@ -226,3 +226,24 @@
 (defn matrix-*-matrix [m n]
   (let [cols (transpose n)]
     (map (fn [w] (matrix-*-vector cols w)) m)))
+
+;; 2.38
+(defn fold-right [op initial items]
+  (if (nil? items)
+    initial
+    (op (ch2/car items)
+        (fold-right op initial (ch2/cdr items)))))
+
+(defn fold-left [op initial items]
+  (if (nil? items)
+    initial
+    (fold-left op
+               (op initial (ch2/car items))
+               (ch2/cdr items))))
+
+;; 2.39
+(defn reverse-fold-left [l]
+  (fold-left (fn [x y] (cons y x)) nil l))
+
+(defn reverse-fold-right [l]
+  (fold-right (fn [x y] (ch2/append y (list x))) nil l))

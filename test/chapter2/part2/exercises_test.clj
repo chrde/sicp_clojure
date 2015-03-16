@@ -175,6 +175,25 @@
     (is (= (list (list 20 -22 22) (list -32 1 -1))
            (matrix-*-matrix (list (list 6 4) (list -2 5))
                             (list (list 6 -3 3) (list -4 -1 1))))
-        "2.37 - matrix * matrix")
-    ))
+        "2.37 - matrix * matrix")))
+
+(deftest folds-comparison-test
+  (testing "2.38 - fold right vs fold left"
+    (is (= (/ 3 2)
+           (fold-right / 1 (list 1 2 3))))
+    (is (= (/ 1 6)
+           (fold-left / 1 (list 1 2 3))))
+    (is (= (list 1 (list 2 (list 3 nil)))
+           (fold-right list nil (list 1 2 3))))
+    (is (= (list (list (list nil 1) 2) 3)
+           (fold-left list nil (list 1 2 3))))))
+
+(deftest reverse-fold-test
+  (testing "2.39 - reverse based on fold"
+    (is (= '(4 3 2 1) (reverse-fold-left '(1 2 3 4)))
+        "2.39 - reverse based on fold-left")
+    (is (= '(4 3 2 1) (reverse-fold-right '(1 2 3 4)))
+        "2.39 - reverse based on fold-right")))
+
+
 (run-tests)
