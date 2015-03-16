@@ -149,3 +149,24 @@
               (torque right))
            (balanced-structure? (branch-structure left))
            (balanced-structure? (branch-structure right))))))
+
+;; 2.30
+(defn square-tree [tree]
+  (cond (nil? tree) nil
+        (not (coll? tree)) (chapter1.samples/sqr tree)
+        :else (cons (square-tree (ch2/car tree))
+                    (square-tree (ch2/cdr tree)))))
+
+;; 2.31
+(defn tree-map [f tree]
+  (ch2/map- (fn [sub-tree]
+              (if (coll? sub-tree)
+                (tree-map f sub-tree)
+                (f sub-tree)))
+            tree))
+
+(defn tree-map1 [f tree]
+  (cond (nil? tree) nil
+        (not (coll? tree)) (f tree)
+        :else (cons (tree-map1 f (ch2/car tree))
+                    (tree-map1 f (ch2/cdr tree)))))

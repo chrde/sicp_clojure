@@ -33,4 +33,3 @@
         (not (coll? x)) 1
         :else (+ (count-leaves (car x))
                  (count-leaves (cdr x)))))
-

@@ -122,4 +122,17 @@
         (is (true? (balanced-structure? mobile4)) "2.29 - nested balanced mobile")
         ))))
 
+(deftest square-tree-test
+  (let [input (list 1 (list 2 (list 3 4) 5) (list 6 7))
+        output (list 1 (list 4 (list 9 16) 25) (list 36 49))]
+    (testing "2.30 apply square to a tree"
+      (is (= output (square-tree input))))))
+
+(deftest map-tree-test
+  (let [input (list 1 (list 2 (list 3 4) 5) (list 6 7))
+        output (list 1 (list 4 (list 9 16) 25) (list 36 49))]
+    (testing "2.31 mapping over a tree"
+      (is (= output (tree-map chapter1.samples/sqr input)))
+      (is (= output (tree-map1 chapter1.samples/sqr input))))))
+
 (run-tests)
