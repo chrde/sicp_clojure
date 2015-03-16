@@ -135,4 +135,10 @@
       (is (= output (tree-map chapter1.samples/sqr input)))
       (is (= output (tree-map1 chapter1.samples/sqr input))))))
 
+(deftest subsets-test
+  (testing "2.32 subsets"
+    (is (= (list '()) (subsets nil)))
+    (is (= (list '() '(0)) (subsets '(0))))
+    (is (= (set (list '() '(0) '(1) '(0 1)))
+           (set (subsets '(0 1)))))))
 (run-tests)

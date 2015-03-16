@@ -170,3 +170,11 @@
         (not (coll? tree)) (f tree)
         :else (cons (tree-map1 f (ch2/car tree))
                     (tree-map1 f (ch2/cdr tree)))))
+
+;; 2.32
+(defn subsets [s]
+  (if (nil? s)
+    (list '())
+    (let [rest (subsets (ch2/cdr s))]
+      (ch2/append rest (map (fn [x] (cons (ch2/car s) x))
+                            rest)))))
