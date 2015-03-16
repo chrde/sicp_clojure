@@ -88,7 +88,10 @@
         mobile1 (make-mobile branch1 branch2)
         left (make-branch 0 mobile1)
         right (make-branch 1 2)
-        mobile (make-mobile left right)]
+        mobile (make-mobile left right)
+        mobile2 (make-mobile (make-branch 2 1) right)
+        mobile3 (make-mobile (make-branch 3 mobile2) (make-branch 9 1))
+        mobile4 (make-mobile (make-branch 8 2) (make-branch 4 mobile3))]
     (testing "2.29 - binary mobile - selectors"
       (is (= left (left-branch mobile))
           "2.29 - left branch selector")
@@ -112,11 +115,11 @@
         (is (true? (balanced-structure? mobile1))
             "2.29 - simple balanced mobile")
         (is (false? (balanced-structure? (make-mobile branch1 right))))
-        (is false "2.29 - simple unbalanced mobile because of weight")
-        (is false "2.29 - simple unbalanced mobile because of length")
-        (is false "2.29 - nested balanced mobile")
-        (is false "2.29 - nested unbalanced mobile because of weight")
-        (is false "2.29 - nested unbalanced mobile because of length")
+        (is (false? (balanced-structure? (make-mobile branch1 (make-branch 2 3))))
+            "2.29 - simple unbalanced mobile because of weight")
+        (is (false? (balanced-structure? (make-mobile branch1 (make-branch 3 4))))
+            "2.29 - simple unbalanced mobile because of length")
+        (is (true? (balanced-structure? mobile4)) "2.29 - nested balanced mobile")
         ))))
 
 (run-tests)
