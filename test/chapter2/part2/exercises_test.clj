@@ -166,7 +166,8 @@
 
 (deftest matrix-operations-test
   (testing "2.37 - matrix operations"
-    (is (= 32 (dot-product (list 1 2 3) (list 4 5 6))) "2.37 - dot product")
+    (is (= 32 (dot-product (list 1 2 3) (list 4 5 6)))
+        "2.37 - dot product")
     (is (= '(14 22) (matrix-*-vector (list (list 3 4) (list 5 6)) (list 2 2)))
         "2.37 - matrix * vector")
     (is (= (list (list 1 3 5) (list 2 4 6)) (transpose (list (list 1 2) (list 3 4) (list 5 6))))
