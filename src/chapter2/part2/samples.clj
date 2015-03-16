@@ -33,3 +33,26 @@
         (not (coll? x)) 1
         :else (+ (count-leaves (car x))
                  (count-leaves (cdr x)))))
+
+(defn filter- [pred items]
+  (cond (nil? items) nil
+        (pred (car items)) (cons (car items)
+                                 (filter- pred (cdr items)))
+        :else (filter- pred (cdr items))))
+
+(defn accumulate- [op initial items]
+  (if (nil? items)
+    initial
+    (op (car items)
+        (accumulate- op initial (cdr items)))))
+
+(defn enumerate-interval [low high]
+  (if (> low high)
+    nil
+    (cons low (enumerate-interval (inc low) high))))
+
+(defn enumerate-tree [tree]
+  (cond (nil? tree) nil
+        (not (coll? tree)) (list tree)
+        :else (append (enumerate-tree (car tree))
+                      (enumerate-tree (cdr tree)))))

@@ -178,3 +178,15 @@
     (let [rest (subsets (ch2/cdr s))]
       (ch2/append rest (map (fn [x] (cons (ch2/car s) x))
                             rest)))))
+
+;; 2.33
+(defn map-acc [p sec]
+  (ch2/accumulate- (fn [x y] (cons (p x) y))
+                   nil
+                   sec))
+
+(defn append-acc [seq1 seq2]
+  (ch2/accumulate- cons seq2 seq1 ))
+
+(defn length-acc [seq]
+  (ch2/accumulate- (fn [_ y] (inc y)) 0 seq))

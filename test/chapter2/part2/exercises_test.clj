@@ -125,20 +125,29 @@
 (deftest square-tree-test
   (let [input (list 1 (list 2 (list 3 4) 5) (list 6 7))
         output (list 1 (list 4 (list 9 16) 25) (list 36 49))]
-    (testing "2.30 apply square to a tree"
+    (testing "2.30 - apply square to a tree"
       (is (= output (square-tree input))))))
 
 (deftest map-tree-test
   (let [input (list 1 (list 2 (list 3 4) 5) (list 6 7))
         output (list 1 (list 4 (list 9 16) 25) (list 36 49))]
-    (testing "2.31 mapping over a tree"
+    (testing "2.31 - mapping over a tree"
       (is (= output (tree-map chapter1.samples/sqr input)))
       (is (= output (tree-map1 chapter1.samples/sqr input))))))
 
 (deftest subsets-test
-  (testing "2.32 subsets"
+  (testing "2.32 - subsets"
     (is (= (list '()) (subsets nil)))
     (is (= (list '() '(0)) (subsets '(0))))
     (is (= (set (list '() '(0) '(1) '(0 1)))
            (set (subsets '(0 1)))))))
+
+(deftest accumulate-test
+  (testing "2.33 - accumulate as the basic building block"
+    (is (= '(1 4 9 16) (map-acc chapter1.samples/sqr (list 1 2 3 4)))
+        "2.33 - map based on accumulate")
+    (is (= 4 (length-acc (list 1 2 3 4)))
+        "2.33 - length based on accumulate")
+    (is (= '(1 2 3 4) (append-acc (list 1 2) (list 3 4)))
+        "2.33 - append based on accumulate")))
 (run-tests)
