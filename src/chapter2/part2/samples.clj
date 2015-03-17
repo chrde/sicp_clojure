@@ -49,7 +49,7 @@
 
 (defn enumerate-interval [low high]
   (if (> low high)
-    '()
+    nil
     (cons low (enumerate-interval (inc low) high))))
 
 (defn enumerate-tree [tree]

@@ -197,10 +197,11 @@
 
 (deftest unique-pairs-test
   (testing "2.40 - generating unique pairs"
-    (is (= '() (unique-pairs 0)))
-    (is (= '() (unique-pairs 1)))
+    (is (nil? (unique-pairs 0)))
+    (is (nil? (unique-pairs 1)))
     (is (= (list (list 2 1)) (unique-pairs 2)))
-    (is (= (list (list 2 1) (list 3 1) (list 3 2)) (unique-pairs 3)))))
+    (is (= (set (list (list 2 1) (list 3 1) (list 3 2)))
+           (set (unique-pairs 3))))))
 
 (deftest ordered-triples-test
   (testing "2.41 - find all ordered triples"
@@ -208,8 +209,14 @@
     (is (= '() (find-triples 1)))
     (is (= '() (find-triples 2)))
     (is (= '() (find-triples 5)))
-    (is (= (list (list 6 2 1) (list 5 3 1) (list 4 3 2))
-           (find-triples 9)))
-    ))
+    (is (= (set (list (list 6 2 1) (list 5 3 1) (list 4 3 2)))
+           (set (find-triples 9)))))
+  (testing "2.41 - find all ordered triples - flatmap version"
+    (is (nil? (find-triples-flatmap 0)))
+    (is (nil? (find-triples-flatmap 1)))
+    (is (nil? (find-triples-flatmap 2)))
+    (is (nil? (find-triples-flatmap 5)))
+    (is (= (set (list (list 6 2 1) (list 5 3 1) (list 4 3 2)))
+           (set (find-triples-flatmap 9))))))
 
 (run-tests)
