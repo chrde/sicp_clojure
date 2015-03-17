@@ -1,5 +1,6 @@
 (ns chapter2.part2.exercises
-  (require [chapter2.part2.samples :as ch2]))
+  (require [chapter2.part2.samples :as ch2]
+           [chapter1.samples :as ch1]))
 
 ;; 2.17
 (defn last-pair [l]
@@ -280,3 +281,45 @@
                                                        (ch2/enumerate-interval 1 (dec j))))
                                            (ch2/enumerate-interval 1 (dec i))))
                             (ch2/enumerate-interval 1 n))))
+
+;; 2.42
+(defn place-queen [row col]
+  (list row col))
+
+(defn row [queen]
+  (ch2/car queen))
+
+(defn col [queen]
+  (ch2/cadr queen))
+
+(defn collides? [q1 q2]
+  (let [c (- (col q1) (col q2))
+        r (- (row q1) (row q2))]
+    (or (zero? r)
+        (= (ch1/abs c) (ch1/abs r)))))
+
+(defn safe? [_ queen-positions]
+  (->> (ch2/cdr queen-positions)
+       (ch2/map- (fn [queen] (collides? queen (ch2/car queen-positions))))
+       (ch2/accumulate- (fn [x y] (or x y)) false)
+       not))
+
+
+(defn adjoin-position [row column rest-of-queens]
+  (cons (place-queen row column) rest-of-queens))
+
+(defn empty-board []
+  (list))
+
+(defn queens
+  ([board-size] (queens board-size board-size))
+  ([board-size k]
+   (if (zero? k)
+     (empty-board)
+     (ch2/filter- (fn [positions] (safe? k positions))
+                  (ch2/flatmap (fn [rest-of-queens]
+                                 (ch2/map- (fn [new-row] (adjoin-position new-row
+                                                                          k
+                                                                          rest-of-queens))
+                                           (ch2/enumerate-interval 1 board-size)))
+                               (queens board-size (dec k)))))))

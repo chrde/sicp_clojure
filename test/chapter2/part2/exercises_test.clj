@@ -1,6 +1,7 @@
 (ns chapter2.part2.exercises-test
   (:require [clojure.test :refer :all]
-            [chapter2.part2.exercises :refer :all]))
+            [chapter2.part2.exercises :refer :all]
+            [chapter2.part2.samples :as ch2]))
 
 (deftest last-pair-test
   (testing "2.17 - last element of a list"
@@ -94,31 +95,31 @@
         mobile4 (make-mobile (make-branch 8 2) (make-branch 4 mobile3))]
     (testing "2.29 - binary mobile - selectors"
       (is (= left (left-branch mobile))
-          "2.29 - left branch selector")
+          "left branch selector")
       (is (= right (right-branch mobile))
-          "2.29 - right branch selector")
+          "right branch selector")
       (is (= 1 (branch-length right))
-          "2.29 - branch length")
+          "branch length")
       (is (= 2 (branch-structure right))
-          "2.29 - branch structure "))
+          "branch structure "))
     (testing "2.29 - binary mobile - total weight"
       (is (= (+ (branch-structure branch1)
                 (branch-structure branch2))
              (total-weight mobile1))
-          "2.29 - weight of mobile without nested branches")
+          "weight of mobile without nested branches")
       (is (= (+ (branch-structure branch1)
                 (branch-structure branch2)
                 (branch-structure right))
              (total-weight mobile))
-          "2.29 - weight of a complex mobile")
+          "weight of a complex mobile")
       (testing "2.29 - balanced mobile"
         (is (true? (balanced-structure? mobile1))
-            "2.29 - simple balanced mobile")
+            "simple balanced mobile")
         (is (false? (balanced-structure? (make-mobile branch1 right))))
         (is (false? (balanced-structure? (make-mobile branch1 (make-branch 2 3))))
-            "2.29 - simple unbalanced mobile because of weight")
+            "simple unbalanced mobile because of weight")
         (is (false? (balanced-structure? (make-mobile branch1 (make-branch 3 4))))
-            "2.29 - simple unbalanced mobile because of length")
+            "simple unbalanced mobile because of length")
         (is (true? (balanced-structure? mobile4)) "2.29 - nested balanced mobile")
         ))))
 
@@ -145,11 +146,11 @@
 (deftest accumulate-test
   (testing "2.33 - accumulate as the basic building block"
     (is (= '(1 4 9 16) (map-acc chapter1.samples/sqr (list 1 2 3 4)))
-        "2.33 - map based on accumulate")
+        "map based on accumulate")
     (is (= 4 (length-acc (list 1 2 3 4)))
-        "2.33 - length based on accumulate")
+        "length based on accumulate")
     (is (= '(1 2 3 4) (append-acc (list 1 2) (list 3 4)))
-        "2.33 - append based on accumulate")))
+        "append based on accumulate")))
 
 (deftest horner-eval-test
   (testing "2.34 - Horner's rule"
@@ -167,15 +168,15 @@
 (deftest matrix-operations-test
   (testing "2.37 - matrix operations"
     (is (= 32 (dot-product (list 1 2 3) (list 4 5 6)))
-        "2.37 - dot product")
+        "dot product")
     (is (= '(14 22) (matrix-*-vector (list (list 3 4) (list 5 6)) (list 2 2)))
-        "2.37 - matrix * vector")
+        "matrix * vector")
     (is (= (list (list 1 3 5) (list 2 4 6)) (transpose (list (list 1 2) (list 3 4) (list 5 6))))
-        "2.37 - transpose a matrix")
+        "transpose a matrix")
     (is (= (list (list 20 -22 22) (list -32 1 -1))
            (matrix-*-matrix (list (list 6 4) (list -2 5))
                             (list (list 6 -3 3) (list -4 -1 1))))
-        "2.37 - matrix * matrix")))
+        "matrix * matrix")))
 
 (deftest folds-comparison-test
   (testing "2.38 - fold right vs fold left"
@@ -191,9 +192,9 @@
 (deftest reverse-fold-test
   (testing "2.39 - reverse based on fold"
     (is (= '(4 3 2 1) (reverse-fold-left '(1 2 3 4)))
-        "2.39 - reverse based on fold-left")
+        "reverse based on fold-left")
     (is (= '(4 3 2 1) (reverse-fold-right '(1 2 3 4)))
-        "2.39 - reverse based on fold-right")))
+        "reverse based on fold-right")))
 
 (deftest unique-pairs-test
   (testing "2.40 - generating unique pairs"
@@ -219,4 +220,32 @@
     (is (= (set (list (list 6 2 1) (list 5 3 1) (list 4 3 2)))
            (set (find-triples-flatmap 9))))))
 
+(deftest n-queens-test
+  (testing "2.42 - collides? to place a queen"
+    (is (false? (collides? (place-queen 1 1) (place-queen 3 1)))
+        "collides? doesn't check for the same column")
+    (is (true? (collides? (place-queen 1 1) (place-queen 1 2)))
+        "collides? for the same row")
+    (is (true? (collides? (place-queen 3 2) (place-queen 5 4)))
+        "collides? for the diagonal down-right")
+    (is (true? (collides? (place-queen 3 2) (place-queen 2 1)))
+        "collides? for the diagonal up-left")
+    (is (true? (collides? (place-queen 3 2) (place-queen 4 1)))
+        "collides? for the diagonal down-left")
+    (is (true? (collides? (place-queen 3 2) (place-queen 3 4)))
+        "collides? for the diagonal up-right"))
+  (testing "2.42 - safe? to place a queen"
+    (is (safe? 1 (list)))
+    (is (not (safe? 2 (list (place-queen 1 1) (place-queen 2 2)))))
+    (is (safe? 3 (list (place-queen 1 2) (place-queen 3 3))))
+    (is (safe? 8 (list (place-queen 4 1) (place-queen 6 2) (place-queen 8 3) (place-queen 5 8)
+                       (place-queen 7 5) (place-queen 2 4) (place-queen 1 6) (place-queen 3 7)))))
+  (testing "2.42 - n queens problem"
+    (are [x y] (= x (ch2/length (queens y)))
+               1 1
+               0 2
+               0 3
+               2 4
+               92 8)
+    ))
 (run-tests)
