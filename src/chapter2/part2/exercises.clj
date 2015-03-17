@@ -252,6 +252,26 @@
 (defn unique-pairs [n]
   (if (< n 2)
     '()
-    (ch2/flatmap (fn [i] (map (fn [j] (list j i))
+    (ch2/flatmap (fn [i] (map (fn [j] (list i j))
                               (ch2/enumerate-interval 1 (dec i))))
                  (ch2/enumerate-interval 2 n))))
+
+;; 2.41
+(defn find-third-number [n]
+  (fn [pair]
+    (if (nil? (ch2/car pair))
+      nil
+      (let [x (ch2/car pair)
+            z (- n (+ (ch2/car pair) (ch2/cadr pair)))]
+        (if (or (neg? z) (>= x z))
+          '()
+          (cons z pair))))))
+
+(defn find-triples [n]
+  (ch2/accumulate- (fn [pair acc]
+                     (let [x ((find-third-number n) pair)]
+                       (if (or (nil? x) (nil? (ch2/car x)))
+                         acc
+                         (cons x acc))))
+                   '()
+                   (unique-pairs n)))

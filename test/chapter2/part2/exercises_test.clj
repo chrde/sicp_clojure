@@ -199,6 +199,17 @@
   (testing "2.40 - generating unique pairs"
     (is (= '() (unique-pairs 0)))
     (is (= '() (unique-pairs 1)))
-    (is (= (list (list 1 2)) (unique-pairs 2)))
-    (is (= (list (list 1 2) (list 1 3) (list 2 3)) (unique-pairs 3)))))
+    (is (= (list (list 2 1)) (unique-pairs 2)))
+    (is (= (list (list 2 1) (list 3 1) (list 3 2)) (unique-pairs 3)))))
+
+(deftest ordered-triples-test
+  (testing "2.41 - find all ordered triples"
+    (is (= '() (find-triples 0)))
+    (is (= '() (find-triples 1)))
+    (is (= '() (find-triples 2)))
+    (is (= '() (find-triples 5)))
+    (is (= (list (list 6 2 1) (list 5 3 1) (list 4 3 2))
+           (find-triples 9)))
+    ))
+
 (run-tests)
