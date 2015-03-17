@@ -6,6 +6,8 @@
 (defn cdr [l]
   (next l))
 
+(def cadr (chapter1.exercises/compose car cdr))
+
 (defn list-ref [l n]
   (if (zero? n)
     (car l)
@@ -19,8 +21,7 @@
 (defn append [l1 l2]
   (if (nil? l1)
     l2
-    (cons (car l1) (append (cdr l1) l2))
-    ))
+    (cons (car l1) (append (cdr l1) l2))))
 
 (defn map- [proc items]
   (if (nil? items)
@@ -48,7 +49,7 @@
 
 (defn enumerate-interval [low high]
   (if (> low high)
-    nil
+    '()
     (cons low (enumerate-interval (inc low) high))))
 
 (defn enumerate-tree [tree]
@@ -57,3 +58,16 @@
         :else (append (enumerate-tree (car tree))
                       (enumerate-tree (cdr tree)))))
 
+(defn flatmap [proc items]
+  (accumulate- append nil (map- proc items)))
+
+
+(defn remove- [item seq]
+  (filter- (fn [x] (not (= x item))) seq))
+
+(defn permutations [s]
+  (if (nil? s)
+    (list '())
+    (flatmap (fn [x] (map (fn [p] (cons x p))
+                          (permutations (remove- x s))))
+             s)))

@@ -247,3 +247,11 @@
 
 (defn reverse-fold-right [l]
   (fold-right (fn [x y] (ch2/append y (list x))) nil l))
+
+;; 2.40
+(defn unique-pairs [n]
+  (if (< n 2)
+    '()
+    (ch2/flatmap (fn [i] (map (fn [j] (list j i))
+                              (ch2/enumerate-interval 1 (dec i))))
+                 (ch2/enumerate-interval 2 n))))

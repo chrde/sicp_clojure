@@ -195,5 +195,10 @@
     (is (= '(4 3 2 1) (reverse-fold-right '(1 2 3 4)))
         "2.39 - reverse based on fold-right")))
 
-
+(deftest unique-pairs-test
+  (testing "2.40 - generating unique pairs"
+    (is (= '() (unique-pairs 0)))
+    (is (= '() (unique-pairs 1)))
+    (is (= (list (list 1 2)) (unique-pairs 2)))
+    (is (= (list (list 1 2) (list 1 3) (list 2 3)) (unique-pairs 3)))))
 (run-tests)
