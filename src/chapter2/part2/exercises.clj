@@ -304,7 +304,6 @@
        (ch2/accumulate- (fn [x y] (or x y)) false)
        not))
 
-
 (defn adjoin-position [row column rest-of-queens]
   (cons (place-queen row column) rest-of-queens))
 
@@ -323,3 +322,20 @@
                                                                           rest-of-queens))
                                            (ch2/enumerate-interval 1 board-size)))
                                (queens board-size (dec k)))))))
+
+;; 2.44
+(defn below [& _])
+(defn beside [& _])
+(defn up-split [painter n]
+  (if (zero? n)
+    painter
+    (let [smaller (up-split painter (dec n))]
+      (below painter (beside smaller smaller)))))
+
+;; 2.45
+(defn split [pos1 pos2]
+  (fn f [painter n]
+    (if (zero? n)
+      painter
+      (let [smaller (f painter (dec n))]
+        (pos1 painter (pos2 smaller smaller))))))
