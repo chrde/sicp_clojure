@@ -339,3 +339,51 @@
       painter
       (let [smaller (f painter (dec n))]
         (pos1 painter (pos2 smaller smaller))))))
+
+;; 2.46
+(defn make-vector [x y]
+  (list x y))
+
+(defn xcor-vec [v]
+  (ch2/car v))
+
+(defn ycor-vec [v]
+  (ch2/cadr v))
+
+(defn add-vec [v1 v2]
+  (make-vector (+ (xcor-vec v1) (xcor-vec v2))
+               (+ (ycor-vec v1) (ycor-vec v2))))
+
+(defn sub-vec [v1 v2]
+  (add-vec v1 (make-vector (- (xcor-vec v2))
+                           (- (ycor-vec v2)))))
+
+(defn scale-vect [v x]
+  (make-vector (* (xcor-vec v) x)
+               (* (ycor-vec v) x)))
+
+;; 2.47
+(defn make-frame1 [origin edge1 edge2]
+  (list origin edge1 edge2))
+
+(defn origin-frame1 [frame]
+  (ch2/car frame))
+
+(defn edge1-frame1 [frame]
+  (ch2/cadr frame))
+
+(defn edge2-frame1 [frame]
+  (ch2/car (ch2/cdr (ch2/cdr frame))))
+
+
+(defn make-frame2 [origin edge1 edge2]
+  (cons origin (cons edge1 edge2)))
+
+(defn origin-frame2 [frame]
+  (ch2/car frame))
+
+(defn edge1-frame2 [frame]
+  (ch2/cadr frame))
+
+(defn edge2-frame2 [frame]
+  (ch2/cdr (ch2/cdr frame)))

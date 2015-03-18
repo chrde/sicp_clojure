@@ -248,4 +248,31 @@
                2 4
                92 8)
     ))
+
+(deftest vector2d-test
+  (testing "2.46 - selectors of a 2d vector"
+    (is (= 4 (xcor-vec (make-vector 4 5))) "xcor-vect")
+    (is (= 2 (ycor-vec (make-vector 4 2))) "ycor-vect"))
+  (testing "2.46 - 2d vector arithmetic"
+    (is (= (make-vector 8 7) (add-vec (make-vector 4 1)
+                                      (make-vector 4 6)))
+        "vector addition")
+    (is (= (make-vector 3 0) (sub-vec (make-vector 8 7)
+                                       (make-vector 5 7)))
+        "vector subtraction")
+    (is (= (make-vector 15 5) (scale-vect (make-vector 3 1) 5))
+        "vector multiplication by a scalar")))
+
+(deftest frame-selectors-test
+  (testing "2.47 - selectors of a frame v1"
+    (is (= :origin (origin-frame1 (make-frame1 :origin :edge1 :edge2))) "origin selector")
+    (is (= :edge1 (edge1-frame1 (make-frame1 :origin :edge1 :edge2))) "edge1 selector")
+    (is (= :edge2 (edge2-frame1 (make-frame1 :origin :edge1 :edge2))) "edge2 selector")
+    )
+  (testing "2.47 - selectors of a frame v2"
+    (is (= :origin (origin-frame2 (make-frame2 :origin :edge1 (list :edge2)))) "origin selector")
+    (is (= :edge1 (edge1-frame2 (make-frame2 :origin :edge1 (list :edge2)))) "edge1 selector")
+    (is (= (list :edge2) (edge2-frame2 (make-frame2 :origin :edge1 (list :edge2)))) "edge2 selector")
+    ))
+
 (run-tests)
