@@ -387,3 +387,44 @@
 
 (defn edge2-frame2 [frame]
   (ch2/cdr (ch2/cdr frame)))
+
+;; 2.48
+(defn make-segment [v1 v2]
+  (list v1 v2))
+
+(defn start-segment [segment]
+  (ch2/car segment))
+
+(defn end-segment [segment]
+  (ch2/cadr segment))
+
+;; 2.50
+(defn transform-painter [& _])
+(defn flip-horiz [painter]
+  (transform-painter painter
+                     (make-vector 1.0 0.0)
+                     (make-vector 0.0 0.0)
+                     (make-vector 0.0 1.0)))
+
+(defn rotate180 [painter]
+  (flip-horiz (flip-horiz painter)))
+
+(defn rotate270 [painter]
+  (flip-horiz (flip-horiz (flip-horiz painter))))
+
+;; 2.51
+(defn below1 [painter1 painter2]
+  (let [split-point (make-vector 0.0 0.5)]
+    (let [paint-top (transform-painter painter2
+                                       split-point
+                                       (make-vector 1.0 0.5)
+                                       (make-vector 0.0 1.0))
+          paint-bottom (transform-painter painter1
+                                          (make-vector 0.0 0.0)
+                                          (make-vector 1.0 0.0)
+                                          split-point)]
+      (fn [frame] (paint-top frame) (paint-bottom frame)))))
+
+(defn below2 [painter1 painter2]
+  (flip-horiz (beside (rotate270 painter1)
+                      (rotate270 painter2))))
