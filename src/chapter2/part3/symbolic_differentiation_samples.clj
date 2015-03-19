@@ -1,4 +1,4 @@
-(ns chapter2.part3.samples
+(ns chapter2.part3.symbolic-differentiation-samples
   (:require [chapter2.part2.samples :as ch2]))
 
 (def eq? =)
@@ -48,7 +48,7 @@
         (=number? x 1) y
         (=number? y 1) x
         (and (number? x) (number? y)) (* x y)
-        :else (list '* x y x y)))
+        :else (list '* x y)))
 
 (defn deriv [exp var]
   (cond (number? exp) 0
