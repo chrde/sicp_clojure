@@ -32,20 +32,17 @@
 (defn deriv-exp [exp var]
   (cond (number? exp) 0
         (variable? exp) (if (same-variable? exp var) 1 0)
-        (sum? exp)
-        (make-sum-simplest (deriv-exp (addend exp) var)
-                           (deriv-exp (augend exp) var))
-        (product? exp)
-        (make-sum-simplest (make-product-simplest (multiplier exp)
-                                                  (deriv-exp (multiplicand exp) var))
-                           (make-product-simplest (deriv-exp (multiplier exp) var)
-                                                  (multiplicand exp)))
-        (exponentiation? exp)
-        (make-product-simplest (make-product-simplest (exponent exp)
-                                                      (make-exponentiation-simplest
-                                                        (base exp)
-                                                        (make-sum-simplest (exponent exp) -1)))
-                               (deriv-exp (base exp) var))
+        (sum? exp) (make-sum (deriv-exp (addend exp) var)
+                             (deriv-exp (augend exp) var))
+        (product? exp) (make-sum (make-product (multiplier exp)
+                                               (deriv-exp (multiplicand exp) var))
+                                 (make-product (deriv-exp (multiplier exp) var)
+                                               (multiplicand exp)))
+        (exponentiation? exp) (make-product (make-product (exponent exp)
+                                                          (make-exponentiation-simplest
+                                                            (base exp)
+                                                            (make-sum (exponent exp) -1)))
+                                            (deriv-exp (base exp) var))
 
         :else (throw (Exception. (str "Unknown expression type: DERIV-EXP" exp)))))
 
