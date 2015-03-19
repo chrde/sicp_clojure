@@ -6,7 +6,11 @@
 (defn cdr [l]
   (next l))
 
-(def cadr (chapter1.exercises/compose car cdr))
+(defn cadr [l]
+  (car (cdr l)))
+
+(defn caddr [l]
+  (car (cdr (cdr l))))
 
 (defn list-ref [l n]
   (if (zero? n)
