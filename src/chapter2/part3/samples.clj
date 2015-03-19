@@ -1,6 +1,5 @@
 (ns chapter2.part3.samples
-  (:require [chapter2.part2.samples :as ch2]
-            [chapter2.part3.exercises :as ch3]))
+  (:require [chapter2.part2.samples :as ch2]))
 
 (def eq? =)
 
@@ -30,7 +29,7 @@
   (ch2/cadr s))
 
 (defn augend [s]
-  (ch2/car (ch2/cdr (ch2/cdr s))))
+  (ch2/caddr s))
 
 (defn product? [x]
   (and (coll? x) (eq? (ch2/car x) '*)))
@@ -67,3 +66,6 @@
                                           (make-product-simplest (deriv (multiplier exp) var)
                                                                  (multiplicand exp)))
         :else (throw (Exception. (str "Unknown expression type: DERIV" exp)))))
+
+(deriv '(+ x y) 'x)
+(deriv '(* (* x y) (+ x 3)) 'x)
