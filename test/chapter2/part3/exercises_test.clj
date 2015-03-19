@@ -31,8 +31,11 @@
 (deftest many-operations-test
   (testing "2.56 - selectors for expresions with more than 2 parameters"
     (is (= '(+ 2 3 4) (augend-many '(+ 1 2 3 4))) "augend")
-    (is (= '(* 2 3 4) (multiplicand-many '(* 1 2 3 4))) "multiplicand")
-    (is (= '(+ (* a (* 2 x)) b)
-           (deriv-exp-many '(+ (* a (** x 2)) (* b x) c) 'x)))))
+    (is (= '(* 2 3 4) (multiplicand-many '(* 1 2 3 4))) "multiplicand"))
+  (testing "2.56 - derive expressions with more than 2 parameters"
+    (with-redefs [ch3/augend augend-many
+                  ch3/multiplicand multiplicand-many]
+      (is (= '(+ (* a (* 2 x)) b)
+             (deriv-exp '(+ (* a (** x 2)) (* b x) c) 'x))))))
 
 (run-tests)
