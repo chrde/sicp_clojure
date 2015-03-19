@@ -66,6 +66,3 @@
                                           (make-product-simplest (deriv (multiplier exp) var)
                                                                  (multiplicand exp)))
         :else (throw (Exception. (str "Unknown expression type: DERIV" exp)))))
-
-(deriv '(+ x y) 'x)
-(deriv '(* (* x y) (+ x 3)) 'x)

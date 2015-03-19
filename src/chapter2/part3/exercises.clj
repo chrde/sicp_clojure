@@ -48,3 +48,36 @@
                                (deriv-exp (base exp) var))
 
         :else (throw (Exception. (str "Unknown expression type: DERIV-EXP" exp)))))
+
+;; 2.57
+(defn augend-many [s]
+  (let [cddr (ch2/cdr (ch2/cdr s))]
+    (if (nil? (ch2/cdr cddr))
+      (ch2/car cddr)
+      (cons '+ cddr))))
+
+(defn multiplicand-many [s]
+  (let [cddr (ch2/cdr (ch2/cdr s))]
+    (if (nil? (ch2/cdr cddr))
+      (ch2/car cddr)
+      (cons '* cddr))))
+
+(defn deriv-exp-many [exp var]
+  (cond (number? exp) 0
+        (variable? exp) (if (same-variable? exp var) 1 0)
+        (sum? exp)
+        (make-sum-simplest (deriv-exp (addend exp) var)
+                           (deriv-exp (augend-many exp) var))
+        (product? exp)
+        (make-sum-simplest (make-product-simplest (multiplier exp)
+                                                  (deriv-exp (multiplicand-many exp) var))
+                           (make-product-simplest (deriv-exp (multiplier exp) var)
+                                                  (multiplicand-many exp)))
+        (exponentiation? exp)
+        (make-product-simplest (make-product-simplest (exponent exp)
+                                                      (make-exponentiation-simplest
+                                                        (base exp)
+                                                        (make-sum-simplest (exponent exp) -1)))
+                               (deriv-exp (base exp) var))
+
+        :else (throw (Exception. (str "Unknown expression type: DERIV-EXP" exp)))))

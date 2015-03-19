@@ -28,4 +28,11 @@
     (is (= 0 (deriv-exp (deriv-exp (deriv-exp '(+ (+ (* a (** x 2)) (* b x)) c) 'x) 'x) 'x))
         "third deriv. of ax^2 + bx +c = 0")))
 
+(deftest many-operations-test
+  (testing "2.56 - selectors for expresions with more than 2 parameters"
+    (is (= '(+ 2 3 4) (augend-many '(+ 1 2 3 4))) "augend")
+    (is (= '(* 2 3 4) (multiplicand-many '(* 1 2 3 4))) "multiplicand")
+    (is (= '(+ (* a (* 2 x)) b)
+           (deriv-exp-many '(+ (* a (** x 2)) (* b x) c) 'x)))))
+
 (run-tests)
