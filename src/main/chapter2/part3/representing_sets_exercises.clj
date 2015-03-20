@@ -19,7 +19,7 @@
 (defn intersection-set-dup [set1 set2]
   (cond (or (nil? set1) (nil? set2)) '()
         (element-of-set?-dup (car set1) set2) (cons (car set1)
-                                                        (intersection-set-dup (cdr set1) set2))
+                                                    (intersection-set-dup (cdr set1) set2))
         :else (intersection-set-dup (cdr set1) set2)))
 
 (defn union-set-dup [set1 set2]
@@ -34,3 +34,14 @@
         (< x (car set)) (cons x set)
         (= (car set) x) set
         :else (cons (car set) (adjoin-sorted-set x (cdr set)))))
+
+;; 2.62
+(defn union-sorted-set [set1 set2]
+  (cond (empty? set1) set2
+        (empty? set2) set1
+        :else (let [x1 (car set1)
+                    x2 (car set2)]
+                (cond
+                  (= x1 x2) (cons x1 (union-sorted-set (cdr set1) (cdr set2)))
+                  (< x1 x2) (cons x1 (union-sorted-set (cdr set1) set2))
+                  :else (cons x2 (union-sorted-set set1 (cdr set2)))))))

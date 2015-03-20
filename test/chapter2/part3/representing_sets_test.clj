@@ -24,4 +24,10 @@
     (is (= (list 4) (adjoin-sorted-set 4 '())))
     (is (= (list 1 2 3) (adjoin-sorted-set 2 '(1 3))))))
 
+(deftest union-sorted-set-test
+  (testing "2.62 - union of sorted sets"
+    (is (= '(2 4) (union-sorted-set '() '(2 4))))
+    (is (= '(2 4) (union-sorted-set '(2 4) '())))
+    (is (= '(1 2 3 4) (union-sorted-set '(1 3) '(2 4))))))
+
 (run-tests)
