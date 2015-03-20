@@ -19,4 +19,9 @@
     (is (= (list) (intersection-set-dup (list 3) (list 2 2)))
         "intersection-set-dup")))
 
+(deftest adjoin-sorted-set-test
+  (testing "2.61 - adding elements to a sorted list"
+    (is (= (list 4) (adjoin-sorted-set 4 '())))
+    (is (= (list 1 2 3) (adjoin-sorted-set 2 '(1 3))))))
+
 (run-tests)
