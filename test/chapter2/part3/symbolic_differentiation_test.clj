@@ -46,15 +46,3 @@
   (testing "2.58 - b) standard alegraic notation"
     (is (= 12 (deriv-exp-infix '(3 * x + x + 2 * (x + 4 + y)) 'x)))
     (is (= '(2 * y) (deriv-exp-infix '(2 * x * y) 'x)))))
-
-(defn a []
-  (throw (Exception. "hi")))
-
-(defn a []
-  true)
-
-(deftest a-test
-  (is (a)))
-
-
-(run-tests)
