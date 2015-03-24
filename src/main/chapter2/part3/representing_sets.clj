@@ -1,4 +1,4 @@
-(ns chapter2.part3.representing-sets-exercises
+(ns chapter2.part3.representing-sets
   (:require [chapter2.part3.representing-sets-samples :as ch3]
             [chapter2.part2.samples :refer [car cdr] :as ch2]))
 

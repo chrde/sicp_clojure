@@ -1,6 +1,6 @@
 (ns chapter2.part3.symbolic-differentiation-test
   (:require [clojure.test :refer :all]
-            [chapter2.part3.symbolic-differentiation-exercises :refer :all]
+            [chapter2.part3.symbolic-differentiation :refer :all]
             [chapter2.part3.symbolic-differentiation-samples :as ch3]))
 
 (deftest equal?-test

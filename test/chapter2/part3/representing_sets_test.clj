@@ -1,6 +1,6 @@
 (ns chapter2.part3.representing-sets-test
   (:require [clojure.test :refer :all]
-            [chapter2.part3.representing-sets-exercises :refer :all]
+            [chapter2.part3.representing-sets :refer :all]
             [chapter2.part3.representing-sets-samples :as ch3]))
 
 (deftest union-set-test

@@ -1,4 +1,4 @@
-(ns chapter2.part3.symbolic-differentiation-exercises
+(ns chapter2.part3.symbolic-differentiation
   (:require [chapter2.part2.samples :as ch2]
             [chapter2.part3.symbolic-differentiation-samples :refer :all]
             [chapter1.samples :as ch1]))
