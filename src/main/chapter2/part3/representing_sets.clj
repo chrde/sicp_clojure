@@ -45,3 +45,12 @@
                   (= x1 x2) (cons x1 (union-sorted-set (cdr set1) (cdr set2)))
                   (< x1 x2) (cons x1 (union-sorted-set (cdr set1) set2))
                   :else (cons x2 (union-sorted-set set1 (cdr set2)))))))
+
+;; 2.64
+(defn union-tree-set [tree1 tree2]
+  (ch3/list->tree (union-sorted-set (ch3/tree->list2 tree1)
+                                    (ch3/tree->list2 tree2))))
+
+(defn intersection-tree-set [tree1 tree2]
+  (ch3/list->tree (ch3/intersection-sorted-set (ch3/tree->list2 tree1)
+                                               (ch3/tree->list2 tree2))))

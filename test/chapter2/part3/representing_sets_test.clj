@@ -30,4 +30,17 @@
     (is (= '(2 4) (union-sorted-set '(2 4) '())))
     (is (= '(1 2 3 4) (union-sorted-set '(1 3) '(2 4))))))
 
-(run-tests)
+(deftest union-tree-set-test
+  (testing "2.64 - union of sorted trees"
+    (is (= '(4
+             (2 (1 () ()) (3 () ()))
+             (6 (5 () ()) (7 () ())))
+           (union-tree-set (ch3/list->tree (list  1 2 3 4)) (ch3/list->tree (list 5 6 7)))))))
+
+(deftest intersection-tree-set-test
+  (testing "2.64 - intersection of sorted trees"
+    (is (= '(4 () ())
+           (intersection-tree-set (ch3/list->tree (list 1 2 3 4))
+                                  (ch3/list->tree (list 4 5 6 7)))))))
+
+;; TODO - make more tests
