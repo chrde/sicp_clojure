@@ -1,6 +1,6 @@
 (ns chapter2.part3.huffman-trees
   (:require [chapter2.part3.huffman-trees-samples :refer :all]
-            [chapter2.part2.samples :refer [car cdr cadr caddr append] :as ch2]
+            [chapter2.part2.samples :refer [car cdr cddr cadr caddr append] :as ch2]
             [chapter2.part3.representing-sets-samples :refer [element-of-set?]]))
 
 ;; 2.67
@@ -32,3 +32,13 @@
     '()
     (ch2/append (encode-symbol (car message) tree)
                 (encode (cdr message) tree))))
+
+;; 2.69
+(defn successive-merge [leaves]
+  (if (nil? (cdr leaves))
+    (car leaves)
+    (successive-merge (adjoin-huffman-set (make-code-tree (car leaves) (cadr leaves))
+                                          (cddr leaves)))))
+
+(defn generate-huffman-tree [pairs]
+  (successive-merge (make-leaf-set pairs)))

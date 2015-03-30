@@ -6,6 +6,9 @@
 (defn cdr [l]
   (next l))
 
+(defn cddr [l]
+  (next (next l)))
+
 (defn cadr [l]
   (car (cdr l)))
 

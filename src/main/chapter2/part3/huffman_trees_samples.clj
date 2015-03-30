@@ -41,7 +41,7 @@
 (defn choose-branch [bit branch]
   (cond (= bit 0) (left-branch branch)
         (= bit 1) (right-branch branch)
-        :else (throw (Exception. (str "bas bit: CHOOSE BRANCH" bit)))))
+        :else (throw (Exception. (str "bad bit: CHOOSE BRANCH" bit)))))
 
 (defn decode
   ([bits tree] (decode bits tree tree))
@@ -55,7 +55,7 @@
          (decode (cdr bits) tree next-branch))))))
 
 (defn adjoin-huffman-set [x set]
-  (cond (nil? set) (list x)
+  (cond (empty? set) (list x)
         (< (weight x) (weight (car set))) (cons x set)
         :else (cons (car set) (adjoin-huffman-set x (cdr set)))))
 
