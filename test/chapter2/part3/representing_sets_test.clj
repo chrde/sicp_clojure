@@ -31,16 +31,23 @@
     (is (= '(1 2 3 4) (union-sorted-set '(1 3) '(2 4))))))
 
 (deftest union-tree-set-test
-  (testing "2.64 - union of sorted trees"
+  (testing "2.65 - union of sorted trees"
     (is (= '(4
              (2 (1 () ()) (3 () ()))
              (6 (5 () ()) (7 () ())))
            (union-tree-set (ch3/list->tree (list  1 2 3 4)) (ch3/list->tree (list 5 6 7)))))))
 
 (deftest intersection-tree-set-test
-  (testing "2.64 - intersection of sorted trees"
+  (testing "2.65 - intersection of sorted trees"
     (is (= '(4 () ())
            (intersection-tree-set (ch3/list->tree (list 1 2 3 4))
                                   (ch3/list->tree (list 4 5 6 7)))))))
 
-;; TODO - make more tests
+(deftest lookup-test
+  (testing "2.66 - lookup in a keyed tree"
+    (let [records (ch3/make-tree (make-record 2 :value2)
+                                 (ch3/make-tree  (make-record 1 :value1) '() '())
+                                 (ch3/make-tree  (make-record 3 :value3) '() '()))]
+      (is (= :value1 (lookup 1 records)))
+      (is (= :value2 (lookup 2 records)))
+      (is (not (lookup 4 records))))))

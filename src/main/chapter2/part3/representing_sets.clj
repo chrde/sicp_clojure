@@ -1,6 +1,7 @@
 (ns chapter2.part3.representing-sets
   (:require [chapter2.part3.representing-sets-samples :as ch3]
-            [chapter2.part2.samples :refer [car cdr] :as ch2]))
+            [chapter2.part2.samples :refer [car cdr cadr] :as ch2]
+            [chapter2.part3.symbolic-differentiation :refer [equal?]]))
 
 ;; 2.59
 (defn union-set [set1 set2]
@@ -46,7 +47,7 @@
                   (< x1 x2) (cons x1 (union-sorted-set (cdr set1) set2))
                   :else (cons x2 (union-sorted-set set1 (cdr set2)))))))
 
-;; 2.64
+;; 2.65
 (defn union-tree-set [tree1 tree2]
   (ch3/list->tree (union-sorted-set (ch3/tree->list2 tree1)
                                     (ch3/tree->list2 tree2))))
@@ -54,3 +55,19 @@
 (defn intersection-tree-set [tree1 tree2]
   (ch3/list->tree (ch3/intersection-sorted-set (ch3/tree->list2 tree1)
                                                (ch3/tree->list2 tree2))))
+
+;; 2.66
+(defn key- [record]
+  (car record))
+
+(defn value [record]
+  (cadr record))
+
+(defn make-record [a-key value]
+  (list a-key value))
+
+(defn lookup [given-key set-of-records]
+  (cond (empty? set-of-records) false
+        (equal? given-key (key- (ch3/entry set-of-records))) (value (ch3/entry set-of-records))
+        (> given-key (key- (ch3/entry set-of-records))) (lookup given-key (ch3/right-branch set-of-records))
+        :else (lookup given-key (ch3/left-branch set-of-records))))
