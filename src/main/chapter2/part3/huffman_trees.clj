@@ -42,3 +42,11 @@
 
 (defn generate-huffman-tree [pairs]
   (successive-merge (make-leaf-set pairs)))
+
+;; 2.70
+(def pairs '((A 2) (BOOM 1) (GET 2) (JOB 2) (SHA 3) (WAH 1) (NA 16) (YIP 9)))
+(def h-tree (generate-huffman-tree pairs))
+(def rock-song '(GET A JOB SHA NA NA NA NA NA NA NA NA GET A JOB SHA NA NA NA NA NA NA NA NA WAH YIP YIP YIP YIP YIP YIP YIP YIP YIP SHA BOOM))
+(count  (encode rock-song h-tree))
+;84
+;alphabet size = 8 -> 3 bits per word
