@@ -12,6 +12,9 @@
 (defn caddr [l]
   (car (cdr (cdr l))))
 
+(defn cadddr [l]
+  (car (cdr (cdr (cdr l)))))
+
 (defn list-ref [l n]
   (if (zero? n)
     (car l)
