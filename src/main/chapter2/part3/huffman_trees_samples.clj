@@ -1,6 +1,5 @@
 (ns chapter2.part3.huffman-trees-samples
-  (:require [chapter2.part3.huffman-trees :as ch3]
-            [chapter2.part2.samples :refer [car cdr cadr caddr cadddr] :as ch2]))
+  (:require [chapter2.part2.samples :refer [car cdr cadr caddr cadddr] :as ch2]))
 
 (def eq? =)
 
