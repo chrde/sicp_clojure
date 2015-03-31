@@ -10,34 +10,34 @@
   (eq? (type-tag z) 'rectangular))
 
 (defn make-from-real-imag [x y]
-  (rect/make-from-real-imag-rectangular x y))
+  (rect/make-from-real-imag x y))
 
 ;;; Polar representation
 (defn polar? [z]
   (eq? (type-tag z) 'polar))
 
 (defn make-from-mag-ang [r a]
-  (polar/make-from-mag-ang-polar r a))
+  (polar/make-from-mag-ang r a))
 
 ;; Generic selectors
 (defn real-part [z]
-  (cond (rectangular? z) (rect/real-part-rectangular (contents z))
-        (polar? z) (polar/real-part-polar (contents z))
+  (cond (rectangular? z) (rect/real-part (contents z))
+        (polar? z) (polar/real-part (contents z))
         :else (error "Unknown type: REAL-PART" z)))
 
 (defn imag-part [z]
-  (cond (rectangular? z) (rect/imag-part-rectangular (contents z))
-        (polar? z) (polar/imag-part-polar (contents z))
+  (cond (rectangular? z) (rect/imag-part (contents z))
+        (polar? z) (polar/imag-part (contents z))
         :else (error "Unknown type: IMAG-PART" z)))
 
 (defn magnitude [z]
-  (cond (rectangular? z) (rect/magnitude-rectangular (contents z))
-        (polar? z) (polar/magnitude-polar (contents z))
+  (cond (rectangular? z) (rect/magnitude (contents z))
+        (polar? z) (polar/magnitude (contents z))
         :else (error "Unknown type: MAGNITUDE" z)))
 
 (defn angle [z]
-  (cond (rectangular? z) (rect/angle-rectangular (contents z))
-        (polar? z) (polar/angle-polar (contents z))
+  (cond (rectangular? z) (rect/angle (contents z))
+        (polar? z) (polar/angle (contents z))
         :else (error "Unknown type: ANGLE" z)))
 
 ;; Operations with complex numbers

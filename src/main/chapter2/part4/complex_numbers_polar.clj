@@ -3,22 +3,22 @@
             [chapter2.part2.samples :refer [car cdr]]
             [chapter1.samples :refer [sqr]]))
 
-(defn magnitude-polar [z]
+(defn magnitude [z]
   (car z))
 
-(defn angle-polar [z]
+(defn angle [z]
   (cdr z))
 
-(defn make-from-mag-ang-polar [r a]
-  (attach-tag 'polar (cons r a)))
+(defn real-part [z]
+  (* (magnitude z) (cos (angle z))))
 
-(defn make-from-real-imag-polar [x y]
+(defn imag-part [z]
+  (* (magnitude z) (sin (angle z))))
+
+(defn make-from-real-imag [x y]
   (attach-tag 'polar
               (cons (sqrt (+ (sqr x) (sqr y)))
                     (atan y x))))
 
-(defn real-part-polar [z]
-  (* (magnitude-polar z) (cos (angle-polar z))))
-
-(defn imag-part-polar [z]
-  (* (magnitude-polar z) (sin (angle-polar z))))
+(defn make-from-mag-ang [r a]
+  (attach-tag 'polar (cons r a)))
