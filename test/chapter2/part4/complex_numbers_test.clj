@@ -4,6 +4,4 @@
 
 (deftest deriv-data-test
   (testing "2.73 - deriv with data data-directed-style"
-    (is (= 1 (deriv  '(+ x 3) 'x)))))
-
-; error: operands (exp) doesnt return the sign anymore)
+    (is (= 1 (deriv '(+ + 3 x) 'x)))))

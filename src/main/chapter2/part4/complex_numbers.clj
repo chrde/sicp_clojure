@@ -15,7 +15,7 @@
                                           (p3/deriv (p3/multiplicand exp) var))
                          (p3/make-product (p3/deriv (p3/multiplier exp) var)
                                           (p3/multiplicand exp))))]
-    (do (table/put :deriv '+ deriv-sum)
+    (do (table/put :deriv '+ (fn [x y] (common/attach-tag '+ (deriv-sum x y))))
         (table/put :deriv '* deriv-mult))))
 
 (install-deriv-package)
@@ -43,6 +43,3 @@
 
 ; These are reasons from a developing/maintaining point of view, since ultimately both
 ; options do "the same"
-
-(deriv '(+ x 3) 'x)
-(x 3)
