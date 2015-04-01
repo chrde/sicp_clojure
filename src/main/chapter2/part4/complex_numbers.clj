@@ -5,12 +5,19 @@
             [chapter2.part2.samples :as p2]))
 
 ;; 2.73
-(defn install-sum-package []
+(defn install-deriv-package []
   (letfn [(deriv-sum [exp var]
             (p3/make-sum (p3/deriv (p3/addend exp) var)
-                         (p3/deriv (p3/augend exp) var)))]
+                         (p3/deriv (p3/augend exp) var)))
+          (deriv-mult [exp var]
+            (p3/make-sum (p3/make-product (p3/multiplier exp)
+                                          (p3/deriv (p3/multiplicand exp) var))
+                         (p3/make-product (p3/deriv (p3/multiplier exp) var)
+                                          (p3/multiplicand exp))))]
     (do (table/put :deriv '+
-          (fn [x y] (common/attach-tag '+ (deriv-sum x y)))))))
+          (fn [x y] (common/attach-tag '+ (deriv-sum x y))))
+        (table/put :deriv '*
+          (fn [x y] (common/attach-tag '* (deriv-mult x y)))))))
 
 (install-sum-package)
 
@@ -38,4 +45,5 @@
 ; These are reasons from a developing/maintaining point of view, since ultimately both
 ; options do "the same"
 
-((table/get :deriv '+) '(+ 3 x) 'x)
+(deriv '(+ (+ x 4)) 'x)
+((table/get :deriv '+) (operands '(+ (+ x 4))) 'x)
