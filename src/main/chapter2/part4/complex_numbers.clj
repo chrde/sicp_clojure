@@ -1,7 +1,30 @@
-(ns chapter2.part4.complex-numbers)
+(ns chapter2.part4.complex-numbers
+  (:require [chapter2.part4.operations-table :as table]
+            [chapter2.part4.common-stuff :as common]
+            [chapter2.part3.symbolic-differentiation-samples :as p3]
+            [chapter2.part2.samples :as p2]))
 
-;; TODO - after creating table in chapter 3, and defining put and get Operations
 ;; 2.73
+(defn install-sum-package []
+  (letfn [(deriv-sum [exp var]
+            (p3/make-sum (p3/deriv (p3/addend exp)var)
+                         (p3/deriv (p3/augend exp)var))) ]
+    (do (table/put :deriv '+
+                   (fn [x y] (common/attach-tag '+ (deriv-sum x y)))))))
+
+(install-sum-package)
+
+(defn operator [exp]
+  (p2/car exp))
+
+(defn operands [exp]
+  (p2/cdr exp))
+
+(defn deriv [exp var]
+  (cond (number? exp) 0
+        (p3/variable? exp) (if (p3/same-variable? exp var) 1 0)
+        :else ((table/get :deriv (operator exp))
+               (operands exp) var)))
 ;; 2.74
 ;; 2.75
 ;; 2.76
@@ -15,3 +38,5 @@
 ; These are reasons from a developing/maintaining point of view, since ultimately both
 ; options do "the same"
 
+(deriv '(+ 3 x) 'x)
+( (table/get :deriv (operator '(+ 3 x))) '(+ 3 x) 'x)
