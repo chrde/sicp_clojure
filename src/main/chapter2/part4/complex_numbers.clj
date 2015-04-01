@@ -1,6 +1,7 @@
 (ns chapter2.part4.complex-numbers
   (:require [chapter2.part4.operations-table :as table]
             [chapter2.part4.common-stuff :as common]
+            [chapter2.part4.complex-numbers-data-directed :as p4]
             [chapter2.part3.symbolic-differentiation-samples :as p3]
             [chapter2.part2.samples :as p2]))
 
@@ -14,12 +15,10 @@
                                           (p3/deriv (p3/multiplicand exp) var))
                          (p3/make-product (p3/deriv (p3/multiplier exp) var)
                                           (p3/multiplicand exp))))]
-    (do (table/put :deriv '+
-          (fn [x y] (common/attach-tag '+ (deriv-sum x y))))
-        (table/put :deriv '*
-          (fn [x y] (common/attach-tag '* (deriv-mult x y)))))))
+    (do (table/put :deriv '+ deriv-sum)
+        (table/put :deriv '* deriv-mult))))
 
-(install-sum-package)
+(install-deriv-package)
 
 (defn operator [exp]
   (p2/car exp))
@@ -45,5 +44,5 @@
 ; These are reasons from a developing/maintaining point of view, since ultimately both
 ; options do "the same"
 
-(deriv '(+ (+ x 4)) 'x)
-((table/get :deriv '+) (operands '(+ (+ x 4))) 'x)
+(deriv '(+ x 3) 'x)
+(x 3)
