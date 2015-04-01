@@ -15,6 +15,3 @@
 ; These are reasons from a developing/maintaining point of view, since ultimately both
 ; options do "the same"
 
-;; 2.78
-;; 2.79
-;; 2.80
