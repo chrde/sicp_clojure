@@ -16,9 +16,8 @@
   (* (magnitude z) (sin (angle z))))
 
 (defn make-from-real-imag [x y]
-  (attach-tag 'polar
-              (cons (sqrt (+ (sqr x) (sqr y)))
-                    (atan y x))))
+  (list (sqrt (+ (sqr x) (sqr y)))
+        (atan y x)))
 
 (defn make-from-mag-ang [r a]
-  (attach-tag 'polar (cons r a)))
+  (list r a))

@@ -26,7 +26,7 @@
 (defn type-tag [datum]
   (if (coll? datum)
     (car datum)
-    (error "Bad tagged datum: TYPE-TA" datum)))
+    (error "Bad tagged datum: TYPE-TAG" datum)))
 
 (defn contents [datum]
   (if (coll? datum)

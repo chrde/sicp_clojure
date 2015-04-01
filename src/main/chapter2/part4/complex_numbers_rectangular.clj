@@ -18,8 +18,7 @@
         (real-part z)))
 
 (defn make-from-real-imag [x y]
-  (attach-tag 'rectangular (cons x y)))
+  (list x y))
 
 (defn make-from-mag-ang [r a]
-  (attach-tag 'rectangular
-              (cons (* r (cos a)) (* r (sin a)))))
+  (list (* r (cos a)) (* r (sin a))))

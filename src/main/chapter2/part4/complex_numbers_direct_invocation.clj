@@ -1,4 +1,4 @@
-(ns chapter2.part4.complex-numbers-samples
+(ns chapter2.part4.complex-numbers-direct-invocation
   (:require [chapter2.part2.samples :refer [car cdr]]
             [chapter1.samples :refer [sqr]]
             [chapter2.part4.common-stuff :refer :all]
@@ -7,17 +7,17 @@
 
 ;;; Rectangular representation
 (defn rectangular? [z]
-  (eq? (type-tag z) 'rectangular))
+  (eq? (type-tag z) :rectangular))
 
 (defn make-from-real-imag [x y]
-  (rect/make-from-real-imag x y))
+  (attach-tag :rectangular rect/make-from-real-imag x y))
 
 ;;; Polar representation
 (defn polar? [z]
-  (eq? (type-tag z) 'polar))
+  (eq? (type-tag z) :polar))
 
 (defn make-from-mag-ang [r a]
-  (polar/make-from-mag-ang r a))
+  (attach-tag :polar polar/make-from-mag-ang r a))
 
 ;; Generic selectors
 (defn real-part [z]
