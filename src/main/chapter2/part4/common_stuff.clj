@@ -21,7 +21,7 @@
 
 ;; Tagging functions
 (defn attach-tag [type-tag contents]
-  (cons type-tag contents))
+  (list type-tag contents))
 
 (defn type-tag [datum]
   (if (coll? datum)
