@@ -42,6 +42,16 @@
         :else ((table/get :deriv (operator exp))
                (operands exp) var)))
 ;; 2.74
+(defn get-record [employee division]
+  ((table/get division :get-record) employee))
+
+(defn get-salary [record division]
+  ((table/get division :salary) record))
+
+(defn find-employee-record [employee & files]
+  (when files
+    (or (get-record employee (p2/car files))
+        (find-employee-record employee (p2/cdr files)))))
 ;; 2.75
 ;; 2.76
 ; When something changes, it would be nice to make changes in just one place
