@@ -1,8 +1,9 @@
 (ns chapter2.part5.generic-operations
   (:require [chapter2.part2.samples :refer [car cdr]]
-            [chapter2.part4.common-stuff :as common]))
-
-;; TODO - after creating table in chapter 3, and defining put and get Operations
+            [chapter2.part4.common-stuff :as common]
+            [chapter2.part4.complex-numbers-data-directed :as compl]
+            [chapter2.part1.samples :as rat]
+            [chapter2.part4.operations-table :as table]))
 
 ;; 2.78
 (defn attach-tag [type-tag contents]
@@ -20,5 +21,18 @@
         (coll? datum) (cdr datum)
         :else (common/error ("Bas tagged datum: CONTENTS" datum))))
 ;; 2.79
+(defn equ?-number [x y]
+  (= x y))
+
+(defn equ?-rational [x y]
+  (= (* (rat/numer x) (rat/denom y)) (* (rat/numer y) (rat/denom x))))
+
+(defn equ?-complex [x y]
+  (and (= (compl/real-part x) (compl/real-part y)) (= (compl/imag-part x) (compl/imag-part y))))
+
+(defn install-equ?-package []
+  (do (table/put :equ '(:number :number) equ?-number)
+      (table/put :equ '(:complex :complex) equ?-complex)
+      (table/put :equ '(:rational :rational) equ?-rational)))
 ;; 2.80
 ;; 2.81
