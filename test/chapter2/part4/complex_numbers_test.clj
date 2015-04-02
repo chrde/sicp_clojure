@@ -4,4 +4,6 @@
 
 (deftest deriv-data-test
   (testing "2.73 - deriv with data data-directed-style"
-    (is (= 1 (deriv '(+ + 3 x) 'x)))))
+    (is (= '(+ 1) (deriv '(+ + 3 x) 'x)))
+    (is (= '(* 4) (deriv '(* * 4 x) 'x)))
+    (is (= '(** 1) (deriv '(** ** x 1) 'x)))))

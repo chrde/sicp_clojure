@@ -3,6 +3,7 @@
             [chapter2.part4.common-stuff :as common]
             [chapter2.part4.complex-numbers-data-directed :as p4]
             [chapter2.part3.symbolic-differentiation-samples :as p3]
+            [chapter2.part3.symbolic-differentiation :as ch3]
             [chapter2.part2.samples :as p2]))
 
 ;; 2.73
@@ -14,9 +15,18 @@
             (p3/make-sum (p3/make-product (p3/multiplier exp)
                                           (p3/deriv (p3/multiplicand exp) var))
                          (p3/make-product (p3/deriv (p3/multiplier exp) var)
-                                          (p3/multiplicand exp))))]
-    (do (table/put :deriv '+ (fn [x y] (common/attach-tag '+ (deriv-sum x y))))
-        (table/put :deriv '* deriv-mult))))
+                                          (p3/multiplicand exp))))
+          (deriv-expo [exp var]
+            (p3/make-product (p3/make-product (ch3/exponent exp)
+                                              (ch3/make-exponentiation-simplest (ch3/base exp)
+                                                                       (p3/make-sum (ch3/exponent exp) -1)))
+                             (ch3/deriv-exp (ch3/base exp) var)))]
+    (do (table/put :deriv '+
+                   (fn [x y] (common/attach-tag '+ (deriv-sum x y))))
+      (table/put :deriv '*
+                 (fn [x y] (common/attach-tag '* (deriv-mult x y))))
+      (table/put :deriv '**
+                 (fn [x y] (common/attach-tag '** (deriv-expo x y)))))))
 
 (install-deriv-package)
 
