@@ -21,7 +21,11 @@
     (is (thrown? Exception (contents false)))))
 
 (deftest equ?-test
-  (testing "2.-79 - equ? of numbers"
+  (testing "2.79 - equ? of numbers"
     (is (equ? 5 5))))
+
+(deftest zero?-test
+  (testing "2.80 - zero? of numbers"
+    (is (zero?- 0))))
 
 (run-tests)

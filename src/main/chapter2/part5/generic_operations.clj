@@ -43,4 +43,26 @@
 
 (install-equ?-package)
 ;; 2.80
+(defn zero?-number [x]
+  (zero? x))
+
+(defn zero?-rational [x]
+  (zero? (rat/denom x)))
+
+(defn zero?-complex [x]
+  (= 0 (compl/imag-part x) (compl/imag-part x)))
+
+(defn install-zero?-package []
+  (do (table/put :zero '(:number) zero?-number)
+      (table/put :zero '(:complex) zero?-complex)
+      (table/put :zero '(:rational) zero?-rational)))
+
+(defn zero?- [x]
+  (with-redefs [common/attach-tag attach-tag
+                common/type-tag type-tag
+                common/contents contents]
+    (compl/apply-generic :zero x)))
+
+(install-zero?-package)
+
 ;; 2.81
