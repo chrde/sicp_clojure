@@ -1,6 +1,7 @@
 (ns chapter2.part5.generic-operations-test
   (:require [chapter2.part5.generic-operations :refer :all]
-            [clojure.test :refer :all]))
+            [clojure.test :refer :all]
+            [chapter2.part4.complex-numbers-data-directed :as p4]))
 
 (deftest attach-tag-test
   (testing "2.78 - attach-tag"
@@ -14,9 +15,13 @@
     (is (thrown? Exception (type-tag false)))))
 
 (deftest contents-test
-  (testing "2.79 - contents-test"
+  (testing "2.78 - contents-test"
     (is (= 4 (contents (attach-tag '+ 4))))
     (is (= '(+ 4 3) (contents (attach-tag '+ '(+ 4 3)))))
     (is (thrown? Exception (contents false)))))
+
+(deftest equ?-test
+  (testing "2.-79 - equ? of numbers"
+    (is (equ? 5 5))))
 
 (run-tests)

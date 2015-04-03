@@ -19,7 +19,7 @@
 (defn contents [datum]
   (cond (number? datum) datum
         (coll? datum) (cdr datum)
-        :else (common/error ("Bas tagged datum: CONTENTS" datum))))
+        :else (common/error ("Bad tagged datum: CONTENTS" datum))))
 ;; 2.79
 (defn equ?-number [x y]
   (= x y))
@@ -34,5 +34,13 @@
   (do (table/put :equ '(:number :number) equ?-number)
       (table/put :equ '(:complex :complex) equ?-complex)
       (table/put :equ '(:rational :rational) equ?-rational)))
+
+(defn equ? [x y]
+  (with-redefs [common/attach-tag attach-tag
+                common/type-tag type-tag
+                common/contents contents]
+    (compl/apply-generic :equ x y)))
+
+(install-equ?-package)
 ;; 2.80
 ;; 2.81
