@@ -38,7 +38,7 @@
 (def coercion-table (atom {}))
 
 (defn put-coercion [operation type1 type2]
-  (swap! table assoc-in [type1 type2] operation))
+  (swap! coercion-table assoc-in [type1 type2] operation))
 
 (defn get-coercion [type1 type2]
   (get-in @coercion-table [type1 type2]))

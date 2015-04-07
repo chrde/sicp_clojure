@@ -82,17 +82,19 @@
                 t2->t1 (apply-generic-coercion- operation a1 (t2->t1 a2))
                 :else (common/error "No method for these types" (list operation type-tags))))))))
 
-;; 2.82
-(defn find-good-coercion-from-first [operation & type-tags]
-  (let [convertions (accumulate- (fn [type acc] (let [convertion (table/get operation type)]
-                                                  (if convertion
-                                                    (cons convertion acc)
-                                                    acc)))
-                                 '()
-                                 type-tags)]
-    (when (= (length convertions) (length type-tags))
-      convertions)))
+(defn install-coercion-package []
+  (do (table/put-coercion identity :number :number)))
 
+(install-coercion-package)
+
+;; 2.82
+(defn find-coercions-from-type [type & other-types]
+  (let [coercions (map- (fn [type2] (table/get-coercion type type2)) other-types)]
+    (if (some nil? coercions)
+      '()
+      coercions)))
+
+(table/get-coercion :number :number)
 (defn apply-generic-smart-coercion [operation & args]
   (let [type-tags (map- common/type-tag args)
         proc (table/get operation type-tags)]
