@@ -1,6 +1,7 @@
 (ns chapter2.part5.generic-operations-test
   (:require [chapter2.part5.generic-operations :refer :all]
             [clojure.test :refer :all]
+            [chapter2.part4.common-stuff :as common]
             [chapter2.part4.complex-numbers-data-directed :as p4]))
 
 (deftest attach-tag-test
@@ -27,5 +28,13 @@
 (deftest zero?-test
   (testing "2.80 - zero? of numbers"
     (is (zero?- 0))))
+
+(deftest apply-coercion-test
+  (with-redefs [common/attach-tag attach-tag
+                common/type-tag type-tag
+                common/contents contents]
+    (testing "2.81 - apply method after coercion"
+      (is (thrown-with-msg? Exception #"-no coercion" (apply-generic-coercion- :equ '(:tag :a) '(:tag :a))))
+      (is (apply-generic-coercion- :equ 4 (- 6 2))))))
 
 (run-tests)

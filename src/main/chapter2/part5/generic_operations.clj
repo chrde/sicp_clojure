@@ -77,7 +77,7 @@
               a2 (cadr args)
               t1->t2 (table/get-coercion type1 type2)
               t2->t1 (table/get-coercion type2 type1)]
-          (cond (= type1 type2) (common/error "No method for these types" (list operation type-tags))
+          (cond (= type1 type2) (common/error "No method for these types -no coercion" (list operation type-tags))
                 t1->t2 (apply-generic-coercion- operation (t1->t2 a1) a2)
                 t2->t1 (apply-generic-coercion- operation a1 (t2->t1 a2))
                 :else (common/error "No method for these types" (list operation type-tags))))))))
