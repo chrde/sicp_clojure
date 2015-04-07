@@ -37,9 +37,12 @@
       (is (thrown-with-msg? Exception #"no coercion" (apply-generic-coercion- :equ '(:tag :a) '(:tag :a))))
       (is (apply-generic-coercion- :equ 4 (- 6 2))))))
 
-(deftest find-coercions-from-type-test
+(deftest apply-generic-smart-coercion-test
   (testing "2.82 - find coercions from first type"
-    (is (empty? (find-coercions-from-type :number :character :string)))
-    (is (= 2 (count (find-coercions-from-type :number :number :number))))))
+    (is (empty? (find-coercions-from-type :number '(:character :string))))
+    (is (= 2 (count (find-coercions-from-type :number '(:number :number))))))
+  (testing "2.82 - find common coercion"
+    (is (nil? (find-common-coercion '(:number :character :strings))))
+    (is (find-common-coercion '(:number :number :number)))))
 
 (run-tests)

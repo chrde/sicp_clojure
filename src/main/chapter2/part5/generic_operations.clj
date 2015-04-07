@@ -1,5 +1,5 @@
 (ns chapter2.part5.generic-operations
-  (:require [chapter2.part2.samples :refer [car cdr map- cadr length accumulate-]]
+  (:require [chapter2.part2.samples :refer [car cdr map- filter- cadr length accumulate-]]
             [chapter2.part4.common-stuff :as common]
             [chapter2.part4.complex-numbers-data-directed :as compl]
             [chapter2.part1.samples :as rat]
@@ -88,13 +88,15 @@
 (install-coercion-package)
 
 ;; 2.82
-(defn find-coercions-from-type [type & other-types]
+(defn find-coercions-from-type [type other-types]
   (let [coercions (map- (fn [type2] (table/get-coercion type type2)) other-types)]
     (if (some nil? coercions)
       '()
       coercions)))
 
-(table/get-coercion :number :number)
+(defn find-common-coercion [types]
+  (filter- (comp not empty?) (map- (fn [type] (find-coercions-from-type type types)) types)))
+
 (defn apply-generic-smart-coercion [operation & args]
   (let [type-tags (map- common/type-tag args)
         proc (table/get operation type-tags)]
