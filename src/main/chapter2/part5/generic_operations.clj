@@ -95,7 +95,7 @@
       coercions)))
 
 (defn find-common-coercion [types]
-  (filter- (comp not empty?) (map- (fn [type] (find-coercions-from-type type types)) types)))
+  (car  (filter- (comp not empty?) (map- (fn [type] (find-coercions-from-type type types)) types))))
 
 (defn apply-generic-smart-coercion [operation & args]
   (let [type-tags (map- common/type-tag args)

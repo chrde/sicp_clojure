@@ -43,6 +43,6 @@
     (is (= 2 (count (find-coercions-from-type :number '(:number :number))))))
   (testing "2.82 - find common coercion"
     (is (nil? (find-common-coercion '(:number :character :strings))))
-    (is (find-common-coercion '(:number :number :number)))))
+    (is (= (repeat 3 identity)  (find-common-coercion '(:number :number :number))))))
 
 (run-tests)
