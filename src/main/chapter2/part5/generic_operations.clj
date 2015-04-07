@@ -83,22 +83,27 @@
                 :else (common/error "No method for these types" (list operation type-tags))))))))
 
 (defn install-coercion-package []
-  (do (table/put-coercion identity :number :number)))
+  (do (table/put-coercion identity :number :number)
+      (table/put-coercion (comp cadr identity) :super-number :number)))
 
 (install-coercion-package)
 
 ;; 2.82
 (defn find-coercions-from-type [type other-types]
-  (let [coercions (map- (fn [type2] (table/get-coercion type type2)) other-types)]
+  (let [coercions (map- (fn [type2] (table/get-coercion type2 type)) other-types)]
     (if (some nil? coercions)
       '()
       coercions)))
 
 (defn find-common-coercion [types]
-  (car  (filter- (comp not empty?) (map- (fn [type] (find-coercions-from-type type types)) types))))
+  (car (filter- (comp not empty?) (map- (fn [type] (find-coercions-from-type type types)) types))))
 
-(defn apply-generic-smart-coercion [operation & args]
+(defn apply-generic-smart-coercion [operation args]
   (let [type-tags (map- common/type-tag args)
         proc (table/get operation type-tags)]
     (if proc
-      (apply proc (map- common/contents args)))))
+      (apply proc (map- common/contents args))
+      (let [coercions (find-common-coercion type-tags)]
+        (if coercions
+          (apply-generic-smart-coercion operation (map #(%1 %2) coercions args))
+          (common/error "Automatic coercion is not possible for these types" type-tags))))))

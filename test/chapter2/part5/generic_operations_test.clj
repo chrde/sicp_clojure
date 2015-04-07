@@ -43,6 +43,11 @@
     (is (= 2 (count (find-coercions-from-type :number '(:number :number))))))
   (testing "2.82 - find common coercion"
     (is (nil? (find-common-coercion '(:number :character :strings))))
-    (is (= (repeat 3 identity)  (find-common-coercion '(:number :number :number))))))
+    (is (= (repeat 3 identity)  (find-common-coercion '(:number :number :number)))))
+  (testing "2.82 - apply generic with smart coercions"
+    (with-redefs [common/attach-tag attach-tag
+                  common/type-tag type-tag
+                  common/contents contents]
+      (is (apply-generic-smart-coercion :equ '(4 (:super-number 4)))))))
 
 (run-tests)
