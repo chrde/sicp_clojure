@@ -30,11 +30,17 @@
     (is (zero?- 0))))
 
 (deftest apply-coercion-test
-  (with-redefs [common/attach-tag attach-tag
-                common/type-tag type-tag
-                common/contents contents]
-    (testing "2.81 - apply method after coercion"
-      (is (thrown-with-msg? Exception #"-no coercion" (apply-generic-coercion- :equ '(:tag :a) '(:tag :a))))
+  (testing "2.81 - apply method after coercion"
+    (with-redefs [common/attach-tag attach-tag
+                  common/type-tag type-tag
+                  common/contents contents]
+      (is (thrown-with-msg? Exception #"no coercion" (apply-generic-coercion- :equ '(:tag :a) '(:tag :a))))
       (is (apply-generic-coercion- :equ 4 (- 6 2))))))
+
+(deftest apply-generic-smart-coercion-test
+  (testing "2.82 - find good coercion"
+    (is (not (empty? (find-good-coercion :equ '(:number :number)))))
+    (is (not (empty? (find-good-coercion :equ '(:number :number)))))
+    (is (empty? (find-good-coercion :equ '(:number :other))))))
 
 (run-tests)

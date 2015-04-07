@@ -1,5 +1,5 @@
 (ns chapter2.part5.generic-operations
-  (:require [chapter2.part2.samples :refer [car cdr map- cadr length]]
+  (:require [chapter2.part2.samples :refer [car cdr map- cadr length accumulate-]]
             [chapter2.part4.common-stuff :as common]
             [chapter2.part4.complex-numbers-data-directed :as compl]
             [chapter2.part1.samples :as rat]
@@ -81,3 +81,20 @@
                 t1->t2 (apply-generic-coercion- operation (t1->t2 a1) a2)
                 t2->t1 (apply-generic-coercion- operation a1 (t2->t1 a2))
                 :else (common/error "No method for these types" (list operation type-tags))))))))
+
+;; 2.82
+(defn find-good-coercion [operation & type-tags]
+  (let [convertions (accumulate- (fn [type acc] (let [convertion (table/get operation type)]
+                                                  (if convertion
+                                                    (cons convertion acc)
+                                                    acc)))
+                                 '()
+                                 type-tags)]
+    (when (= (length convertions) (length type-tags))
+      convertions)))
+
+(defn apply-generic-smart-coercion [operation & args]
+  (let [type-tags (map- common/type-tag args)
+        proc (table/get operation type-tags)]
+    (if proc
+      (apply proc (map- common/contents args)))))
