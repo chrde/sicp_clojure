@@ -39,8 +39,8 @@
 
 (deftest apply-generic-smart-coercion-test
   (testing "2.82 - find good coercion"
-    (is (not (empty? (find-good-coercion :equ '(:number :number)))))
-    (is (not (empty? (find-good-coercion :equ '(:number :number)))))
-    (is (empty? (find-good-coercion :equ '(:number :other))))))
+    (is (not (empty? (find-good-coercion-from-first :equ '(:number :number)))))
+    (is (not (empty? (find-good-coercion-from-first :equ '(:number :number)))))
+    (is (empty? (find-good-coercion-from-first :equ '(:number :other))))))
 
 (run-tests)

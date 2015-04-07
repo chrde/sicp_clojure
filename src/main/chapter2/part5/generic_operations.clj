@@ -83,7 +83,7 @@
                 :else (common/error "No method for these types" (list operation type-tags))))))))
 
 ;; 2.82
-(defn find-good-coercion [operation & type-tags]
+(defn find-good-coercion-from-first [operation & type-tags]
   (let [convertions (accumulate- (fn [type acc] (let [convertion (table/get operation type)]
                                                   (if convertion
                                                     (cons convertion acc)
