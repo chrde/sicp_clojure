@@ -48,6 +48,9 @@
     (with-redefs [common/attach-tag attach-tag
                   common/type-tag type-tag
                   common/contents contents]
-      (is (apply-generic-smart-coercion :equ '(4 (:super-number 4)))))))
+      (is (apply-generic-smart-coercion :equ '(4 (:super-number 4))))
+      (is (not (apply-generic-smart-coercion :equ '(4 (:super-number 5)))))
+      (is (thrown-with-msg? Exception #"Automatic coercion"
+                            (apply-generic-smart-coercion :equ '(4 (:other-number 5))))))))
 
 (run-tests)
