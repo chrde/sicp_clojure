@@ -107,3 +107,23 @@
         (if coercions
           (apply-generic-smart-coercion operation (map #(%1 %2) coercions args))
           (common/error "Automatic coercion is not possible for these types" type-tags))))))
+
+;; 2.83
+(defn integer->rational [n]
+  (rat/make-rat n 1))
+
+(defn rational->real [r]
+  (double (/ (rat/numer r) (rat/denom r))))
+
+(defn real->imag [r]
+  (compl/make-from-real-imag r 0))
+
+(defn install-raise-number-package []
+  (do (table/put 'raise 'integer integer->rational)
+      (table/put 'raise 'rational rational->real)
+      (table/put 'raise 'real real->imag)))
+
+(install-raise-number-package)
+
+(defn raise [type n]
+  ((table/get 'raise type) n))

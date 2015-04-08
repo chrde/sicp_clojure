@@ -53,4 +53,8 @@
       (is (thrown-with-msg? Exception #"Automatic coercion"
                             (apply-generic-smart-coercion :equ '(4 (:other-number 5))))))))
 
+(deftest raise-numbers-test
+  (testing "2.83 - raise numbers"
+    (is (= (integer->rational 3) (raise 'integer 3)))))
+
 (run-tests)
