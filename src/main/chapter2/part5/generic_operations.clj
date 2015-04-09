@@ -127,3 +127,21 @@
 
 (defn raise [type n]
   ((table/get 'raise type) n))
+
+;; 2.84
+(defn contents- [x]
+  (cadr x))
+
+(defn install-number-coercions-package []
+  (do (table/put-coercion integer->rational :integer :rational)
+      (table/put-coercion rational->real :rational :real)
+      (table/put-coercion real->imag :real :imaginarium)))
+
+(install-number-coercions-package)
+
+(defn coerce-to [x y]
+  (let [coerc-fn (table/get-coercion  (common/type-tag x) (common/type-tag y))]
+    (if coerc-fn
+      (coerc-fn (contents- x)))))
+
+(coerce-to (common/attach-tag :integer 5) (common/attach-tag :rational (integer->rational 4)))

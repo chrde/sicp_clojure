@@ -57,4 +57,8 @@
   (testing "2.83 - raise numbers"
     (is (= (integer->rational 3) (raise 'integer 3)))))
 
+(deftest auto-coerce-numbers-test
+  (testing "2.84 - coerce numbers"
+    (is (= '(5 1) (coerce-to '(:integer 5) '(:rational (4 1)))))))
+
 (run-tests)
