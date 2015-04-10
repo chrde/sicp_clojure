@@ -109,28 +109,28 @@
           (common/error "Automatic coercion is not possible for these types" type-tags))))))
 
 ;; 2.83
+(defn contents- [x]
+  (cadr x))
+
 (defn integer->rational [n]
-  (rat/make-rat n 1))
+  (common/attach-tag :rational (rat/make-rat n 1)))
 
 (defn rational->real [r]
-  (double (/ (rat/numer r) (rat/denom r))))
+  (common/attach-tag :real (double (/ (rat/numer r) (rat/denom r)))))
 
 (defn real->imag [r]
-  (compl/make-from-real-imag r 0))
+  (common/attach-tag :imaginarium (compl/make-from-real-imag r 0)))
 
 (defn install-raise-number-package []
-  (do (table/put 'raise 'integer integer->rational)
-      (table/put 'raise 'rational rational->real)
-      (table/put 'raise 'real real->imag)))
+  (do (table/put 'raise :integer integer->rational)
+      (table/put 'raise :rational rational->real)
+      (table/put 'raise :real real->imag)))
 
 (install-raise-number-package)
 
-(defn raise [type n]
-  ((table/get 'raise type) n))
-
+(defn raise [n]
+  ((table/get 'raise (common/type-tag n)) (contents- n)))
 ;; 2.84
-(defn contents- [x]
-  (cadr x))
 
 (defn install-number-coercions-package []
   (do (table/put-coercion integer->rational :integer :rational)
@@ -143,5 +143,11 @@
   (let [coerc-fn (table/get-coercion  (common/type-tag x) (common/type-tag y))]
     (if coerc-fn
       (coerc-fn (contents- x)))))
+
+(defn is-subtype? [x y]
+  (let [type1 (common/type-tag x)
+        type2 (common/type-tag y)]
+    (cond (table/get-coercion type1 type2) true
+          (table/get 'raise type1) (is-subtype? ((table/get 'raise type1) x)))))
 
 (coerce-to (common/attach-tag :integer 5) (common/attach-tag :rational (integer->rational 4)))
