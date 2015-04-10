@@ -55,12 +55,14 @@
 
 (deftest raise-numbers-test
   (testing "2.83 - raise numbers"
-    (is (= (integer->rational 3) (raise (common/attach-tag :integer 3))))))
+    (is (= (integer->rational 3) (raise (new-integer 3))))))
 
 
 (deftest auto-coerce-numbers-test
   (testing "2.84 - is subtype"
-    (is (is-subtype? :integer :real)))
+    (is (is-subtype? (new-integer 5) (new-rational '(4 1))))
+    (is (is-subtype? (new-integer 5) (new-real (/ 4 1))))
+    (is (is-subtype? (new-integer 5) (new-imaginarium ()))))
   (testing "2.84 - coerce numbers"
     (is (= '(:rational (5 1)) (coerce-to '(:integer 5) '(:rational (4 1)))))
     ;(is (= '(5 1) (coerce-to '(:rational (4 1)) '(:integer 5))))

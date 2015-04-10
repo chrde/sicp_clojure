@@ -109,17 +109,29 @@
           (common/error "Automatic coercion is not possible for these types" type-tags))))))
 
 ;; 2.83
+(defn new-integer [x]
+  (common/attach-tag :integer x))
+
+(defn new-rational [r]
+  (common/attach-tag :rational r))
+
+(defn new-real [r]
+  (common/attach-tag :real r))
+
+(defn new-imaginarium [r]
+  (common/attach-tag :imaginarium r))
+
 (defn contents- [x]
   (cadr x))
 
 (defn integer->rational [n]
-  (common/attach-tag :rational (rat/make-rat n 1)))
+  (new-rational (rat/make-rat n 1)))
 
 (defn rational->real [r]
-  (common/attach-tag :real (double (/ (rat/numer r) (rat/denom r)))))
+  (new-real (double (/ (rat/numer r) (rat/denom r)))))
 
 (defn real->imag [r]
-  (common/attach-tag :imaginarium (compl/make-from-real-imag r 0)))
+  (new-imaginarium (contents- (compl/make-from-real-imag r 0))))
 
 (defn install-raise-number-package []
   (do (table/put 'raise :integer integer->rational)
@@ -148,6 +160,9 @@
   (let [type1 (common/type-tag x)
         type2 (common/type-tag y)]
     (cond (table/get-coercion type1 type2) true
-          (table/get 'raise type1) (is-subtype? ((table/get 'raise type1) x)))))
+          (table/get 'raise type1) (is-subtype? (raise x) y)
+          :else false)))
+
+(raise (raise (raise (new-integer 4))))
 
 (coerce-to (common/attach-tag :integer 5) (common/attach-tag :rational (integer->rational 4)))
