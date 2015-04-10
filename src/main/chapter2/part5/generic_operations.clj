@@ -2,6 +2,7 @@
   (:require [chapter2.part2.samples :refer [car cdr map- filter- cadr length accumulate-]]
             [chapter2.part4.common-stuff :as common]
             [chapter2.part4.complex-numbers-data-directed :as compl]
+            [chapter2.part4.complex-numbers-rectangular :as rect]
             [chapter2.part1.samples :as rat]
             [chapter2.part4.operations-table :as table]))
 
@@ -131,7 +132,7 @@
   (new-real (double (/ (rat/numer r) (rat/denom r)))))
 
 (defn real->imag [r]
-  (new-imaginarium (contents- (compl/make-from-real-imag r 0))))
+  (new-imaginarium (rect/make-from-real-imag (contents- r) 0)))
 
 (defn install-raise-number-package []
   (do (table/put 'raise :integer integer->rational)
@@ -151,10 +152,11 @@
 
 (install-number-coercions-package)
 
-(defn coerce-to [x y]
-  (let [coerc-fn (table/get-coercion  (common/type-tag x) (common/type-tag y))]
-    (if coerc-fn
-      (coerc-fn (contents- x)))))
+(defn coerce-to [type x]
+  (let [new-x (raise x)]
+    (if (= (common/type-tag new-x) type)
+      new-x
+      (coerce-to type new-x))))
 
 (defn is-subtype? [x y]
   (let [type1 (common/type-tag x)
@@ -163,6 +165,10 @@
           (table/get 'raise type1) (is-subtype? (raise x) y)
           :else false)))
 
-(raise (raise (raise (new-integer 4))))
-
-(coerce-to (common/attach-tag :integer 5) (common/attach-tag :rational (integer->rational 4)))
+(defn upcast-to [x y]
+  (let [type-x (common/type-tag x)
+        type-y (common/type-tag y)]
+    (cond (= type-x type-y) y
+          (is-subtype? x y) (coerce-to type-y x)
+          (is-subtype? y x) (coerce-to type-x y)
+          :else (common/error "upcast-to: No common type between " (list type-x type-y)))))

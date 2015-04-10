@@ -64,9 +64,11 @@
     (is (is-subtype? (new-integer 5) (new-real (/ 4 1))))
     (is (is-subtype? (new-integer 5) (new-imaginarium ()))))
   (testing "2.84 - coerce numbers"
-    (is (= '(:rational (5 1)) (coerce-to '(:integer 5) '(:rational (4 1)))))
-    ;(is (= '(5 1) (coerce-to '(:rational (4 1)) '(:integer 5))))
-   ; (is (= 4.0 (coerce-to (':integer 4) '(:real 3.2))))
-    ))
+    (is (= '(:rational (5 1)) (coerce-to :rational '(:integer 5))))
+    (is (= '(:imaginarium (5.0 0)) (coerce-to :imaginarium '(:integer 5)))))
+  (testing "2.84 - upcast numbers to type"
+    (is (thrown-with-msg? Exception #"No common type" (upcast-to (new-integer 5) '(:other-number :a))))
+    (is (= '(:imaginarium (5.0 0)) (upcast-to (raise (raise (raise (new-integer 5)))) (new-integer 5))))
+    (is (= '(:imaginarium (5.0 0)) (upcast-to (new-integer 5) (raise (raise (raise (new-integer 5)))))))))
 
 (run-tests)
