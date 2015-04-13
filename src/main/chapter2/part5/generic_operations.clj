@@ -178,7 +178,7 @@
   (zero? (rect/imag-part x)))
 
 (defn downcast-imaginarium [x]
-  )
+  (new-real (rect/real-part x)))
 
 (defn can-be-downcasted?-real [x]
   (zero? (rem x 1)))
