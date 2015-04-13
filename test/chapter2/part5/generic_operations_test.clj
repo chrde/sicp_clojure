@@ -71,4 +71,12 @@
     (is (= '(:imaginarium (5.0 0)) (upcast-to (raise (raise (raise (new-integer 5)))) (new-integer 5))))
     (is (= '(:imaginarium (5.0 0)) (upcast-to (new-integer 5) (raise (raise (raise (new-integer 5)))))))))
 
+(deftest downcast-test
+  (testing "2.85 - downcast imaginarium"
+    (is (can-be-downcasted?-imaginarium (contents- (new-imaginarium '(4 0)))))
+    (is (not (can-be-downcasted?-imaginarium (contents- (new-imaginarium '(4 2)))))))
+  (testing "2.85 - downcast real"
+    (is (can-be-downcasted?-real (contents- (new-real 4.0))))
+    (is (not (can-be-downcasted?-real (contents- (new-real 4.2)))))))
+
 (run-tests)

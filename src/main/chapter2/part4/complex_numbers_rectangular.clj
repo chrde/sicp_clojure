@@ -1,13 +1,13 @@
 (ns chapter2.part4.complex-numbers-rectangular
   (:require [chapter2.part4.common-stuff :refer :all]
-            [chapter2.part2.samples :refer [car cdr]]
+            [chapter2.part2.samples :refer [car cadr]]
             [chapter1.samples :refer [sqr]]))
 
 (defn real-part [z]
   (car z))
 
 (defn imag-part [z]
-  (cdr z))
+  (cadr z))
 
 (defn magnitude [z]
   (sqrt (+ (sqr (real-part z))

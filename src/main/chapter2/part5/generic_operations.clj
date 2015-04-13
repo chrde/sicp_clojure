@@ -132,19 +132,19 @@
   (new-real (double (/ (rat/numer r) (rat/denom r)))))
 
 (defn real->imag [r]
-  (new-imaginarium (rect/make-from-real-imag (contents- r) 0)))
+  (new-imaginarium (rect/make-from-real-imag r 0)))
 
 (defn install-raise-number-package []
-  (do (table/put 'raise :integer integer->rational)
-      (table/put 'raise :rational rational->real)
-      (table/put 'raise :real real->imag)))
+  (do (table/put :raise :integer integer->rational)
+      (table/put :raise :rational rational->real)
+      (table/put :raise :real real->imag)))
 
 (install-raise-number-package)
 
 (defn raise [n]
-  ((table/get 'raise (common/type-tag n)) (contents- n)))
-;; 2.84
+  ((table/get :raise (common/type-tag n)) (contents- n)))
 
+;; 2.84
 (defn install-number-coercions-package []
   (do (table/put-coercion integer->rational :integer :rational)
       (table/put-coercion rational->real :rational :real)
@@ -172,3 +172,28 @@
           (is-subtype? x y) (coerce-to type-y x)
           (is-subtype? y x) (coerce-to type-x y)
           :else (common/error "upcast-to: No common type between " (list type-x type-y)))))
+
+;; 2.85
+(defn can-be-downcasted?-imaginarium [x]
+  (zero? (rect/imag-part x)))
+
+(defn downcast-imaginarium [x]
+  )
+
+(defn can-be-downcasted?-real [x]
+  (zero? (rem x 1)))
+
+(defn install-downcast-number-package []
+  (do (table/put :downcast :rational rational->real)
+      (table/put :downcast :real real->imag)))
+
+(install-downcast-number-package)
+
+(defn downcast [n]
+  (let [downcast-fn (table/get 'downcast (common/type-tag n))]
+    (if downcast-fn
+      (downcast (downcast-fn (contents- n)))
+      n)))
+
+(defn downcast [x]
+  (let []))
