@@ -162,7 +162,7 @@
   (let [type1 (common/type-tag x)
         type2 (common/type-tag y)]
     (cond (table/get-coercion type1 type2) true
-          (table/get 'raise type1) (is-subtype? (raise x) y)
+          (table/get :raise type1) (is-subtype? (raise x) y)
           :else false)))
 
 (defn upcast-to [x y]
@@ -178,22 +178,24 @@
   (zero? (rect/imag-part x)))
 
 (defn downcast-imaginarium [x]
-  (new-real (rect/real-part x)))
+  (if (can-be-downcasted?-imaginarium x)
+    (new-real (rect/real-part x))))
 
 (defn can-be-downcasted?-real [x]
   (zero? (rem x 1)))
 
+(defn downcast-real [x]
+  (if (can-be-downcasted?-real x)
+    (new-integer (int x))))
+
 (defn install-downcast-number-package []
-  (do (table/put :downcast :rational rational->real)
-      (table/put :downcast :real real->imag)))
+  (do (table/put :downcast :imaginarium downcast-imaginarium)
+      (table/put :downcast :real downcast-real)))
 
 (install-downcast-number-package)
 
 (defn downcast [n]
-  (let [downcast-fn (table/get 'downcast (common/type-tag n))]
-    (if downcast-fn
-      (downcast (downcast-fn (contents- n)))
-      n)))
-
-(defn downcast [x]
-  (let []))
+  (let [downcast-fn (table/get :downcast (common/type-tag n))]
+    (cond (nil? downcast-fn) n
+          (nil? (downcast-fn (contents- n))) n
+          :else (downcast (downcast-fn (contents- n))))))

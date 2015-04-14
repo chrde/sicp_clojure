@@ -74,9 +74,17 @@
 (deftest downcast-test
   (testing "2.85 - downcast imaginarium"
     (is (can-be-downcasted?-imaginarium (contents- (new-imaginarium '(4 0)))))
-    (is (not (can-be-downcasted?-imaginarium (contents- (new-imaginarium '(4 2)))))))
+    (is (not (can-be-downcasted?-imaginarium (contents- (new-imaginarium '(4 2))))))
+    (is (= (new-real 4.2) (downcast-imaginarium (contents- (new-imaginarium '(4.2 0))))))
+    (is (nil? (downcast-imaginarium (contents- (new-imaginarium '(4.2 4)))))))
   (testing "2.85 - downcast real"
     (is (can-be-downcasted?-real (contents- (new-real 4.0))))
-    (is (not (can-be-downcasted?-real (contents- (new-real 4.2)))))))
+    (is (not (can-be-downcasted?-real (contents- (new-real 4.2)))))
+    (is (= (new-integer 3) (downcast-real (contents- (new-real 3.0)))))
+    (is (nil? (downcast-real (contents- (new-real 3.4))))))
+  (testing "2.85 - downcast"
+    (is (= (new-imaginarium '(4.2 4)) (downcast (new-imaginarium '(4.2 4)))))
+    (is (= (new-real 4.2) (downcast (new-imaginarium '(4.2 0)))))
+    (is (= (new-integer 3) (downcast (new-imaginarium '(3 0)))))))
 
 (run-tests)
