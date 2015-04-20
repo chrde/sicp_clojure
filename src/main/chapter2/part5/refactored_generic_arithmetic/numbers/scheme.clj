@@ -18,4 +18,4 @@
     (tables/put :make :scheme-number (fn [x] (tag x)))))
 
 (defn make-scheme-number [n]
-  ((get :make :scheme-number) n))
+  ((tables/get :make :scheme-number) n))

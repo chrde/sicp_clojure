@@ -1,9 +1,26 @@
-(ns chapter2.part5.refactored-generic-arithmetic.operations)
+(ns chapter2.part5.refactored-generic-arithmetic.operations
+  (:require [chapter2.part5.refactored-generic-arithmetic.common :as common]
+            [chapter2.part5.refactored-generic-arithmetic.tables :as table]))
+
+(defn- apply-generic [operation & args]
+  (let [type-tags (map common/type-tag args)
+        proc (table/get operation type-tags)]
+    (if proc
+      (apply proc (map common/contents args))
+      (common/error "No method for these types: APPLY-GENERIC" (list operation args)))))
 
 (defn add [x y] (apply-generic :add x y))
 (defn sub [x y] (apply-generic :sub x y))
 (defn mul [x y] (apply-generic :mul x y))
+
 (defn div [x y] (apply-generic :div x y))
 
 ;; equ?
 ;; zero?
+
+(add '(:rational (4 3)) '(:rational (4 3)))
+;; Fix contents to deal with collections or the methods using contents
+(map common/contents (list '(:rational (4 3)) '(:rational (4 3))))
+(apply (((4 3)) ((4 3))))
+(map common/type-tag (list '(:rational (4 3)) '(:rational (4 3))))
+(table/get :add  '(:rational :rational))

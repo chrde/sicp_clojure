@@ -47,4 +47,6 @@
                 (fn [n d] (tag (make-rat n d))))))
 
 (defn make-rational [n d]
-  ((get :make :rational) n d))
+  ((tables/get :make :rational) n d))
+
+(make-rational 4 3)

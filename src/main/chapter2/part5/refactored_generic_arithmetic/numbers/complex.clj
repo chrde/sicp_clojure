@@ -46,6 +46,6 @@
               (fn [r a] (tag (make-from-mag-ang r a)))))
 
 (defn make-complex-from-real-imag [x y]
-  ((get :make-from-real-imag :complex) x y))
+  ((tables/get :make-from-real-imag :complex) x y))
 (defn make-complex-from-mag-ang [r a]
-  ((get :make-from-mag-ang :complex) r a))
+  ((tables/get :make-from-mag-ang :complex) r a))
