@@ -19,3 +19,5 @@
 
 (defn make-scheme-number [n]
   ((tables/get :make :scheme-number) n))
+
+(install-scheme-number-package)

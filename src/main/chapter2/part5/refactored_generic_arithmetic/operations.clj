@@ -12,15 +12,7 @@
 (defn add [x y] (apply-generic :add x y))
 (defn sub [x y] (apply-generic :sub x y))
 (defn mul [x y] (apply-generic :mul x y))
-
 (defn div [x y] (apply-generic :div x y))
 
 ;; equ?
 ;; zero?
-
-(add '(:rational (4 3)) '(:rational (4 3)))
-;; Fix contents to deal with collections or the methods using contents
-(map common/contents (list '(:rational (4 3)) '(:rational (4 3))))
-(apply (((4 3)) ((4 3))))
-(map common/type-tag (list '(:rational (4 3)) '(:rational (4 3))))
-(table/get :add  '(:rational :rational))

@@ -1,5 +1,5 @@
 (ns chapter2.part5.refactored-generic-arithmetic.common
-  (:require [chapter2.part2.samples :refer [car cdr]]))
+  (:require [chapter2.part2.samples :refer [car cadr]]))
 
 ;; Basic trigonometric functions
 (defn sqrt [x]
@@ -30,5 +30,5 @@
 
 (defn contents [datum]
   (if (coll? datum)
-    (cdr datum)
+    (cadr datum)
     (error "Bad tagged datum: CONTENTS" datum)))

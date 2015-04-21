@@ -2,14 +2,14 @@
   (:require [chapter2.part5.refactored-generic-arithmetic.common :as common]
             [chapter2.part5.refactored-generic-arithmetic.tables :as tables]
             [chapter1.samples :as chp1]
-            [chapter2.part2.samples :refer [car cdr]]))
+            [chapter2.part2.samples :refer [car cadr]]))
 
 (defn- tag [x]
   (common/attach-tag :rational x))
 
 (defn numer [x] (car x))
 
-(defn denom [x] (cdr x))
+(defn denom [x] (cadr x))
 
 (defn make-rat [n d]
   (let [g (chp1/gcd n d)]
@@ -46,7 +46,7 @@
     (tables/put :make :rational
                 (fn [n d] (tag (make-rat n d))))))
 
+(install-rational-package)
+
 (defn make-rational [n d]
   ((tables/get :make :rational) n d))
-
-(make-rational 4 3)
