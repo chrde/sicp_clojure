@@ -15,6 +15,8 @@
                 (fn [x y] (tag (* x y))))
     (tables/put :div '(:scheme-number :scheme-number)
                 (fn [x y] (tag (/ x y))))
+    (tables/put :zero '(:scheme-number)
+                (fn [x] (zero? x)))
     (tables/put :make :scheme-number (fn [x] (tag x)))))
 
 (defn make-scheme-number [n]

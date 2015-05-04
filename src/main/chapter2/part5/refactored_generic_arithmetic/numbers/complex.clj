@@ -31,6 +31,9 @@
   (make-from-mag-ang (/ (polar/magnitude z1) (polar/magnitude z2))
                      (- (polar/angle z1) (polar/angle z2))))
 
+(defn zero?- [x]
+  (= 0 (rect/imag-part x) (rect/real-part x)))
+
 (defn install-complex-package []
   (do
     (tables/put :add '(:complex :complex)
@@ -44,7 +47,9 @@
     (tables/put :make-from-real-imag :complex
                 (fn [x y] (tag (make-from-real-imag x y))))
     (tables/put :make-from-mag-ang :complex
-                (fn [r a] (tag (make-from-mag-ang r a))))))
+                (fn [r a] (tag (make-from-mag-ang r a))))
+    (tables/put :zero '(:complex)
+                zero?-)))
 
 (defn make-complex-from-real-imag [x y]
   ((tables/get :make-from-real-imag :complex) x y))
