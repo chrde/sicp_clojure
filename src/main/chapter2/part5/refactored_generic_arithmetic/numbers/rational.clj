@@ -36,6 +36,9 @@
 (defn zero?- [x]
   (zero? (numer x)))
 
+(defn equ? [x y]
+  (= (* (numer x) (denom y)) (* (numer y) (denom x))))
+
 (defn install-rational-package []
   (do
     (tables/put :add '(:rational :rational)
@@ -48,12 +51,10 @@
                 (fn [x y] (tag (div-rat x y))))
     (tables/put :make :rational
                 (fn [n d] (tag (make-rat n d))))
-    (tables/put :zero '(:rational)
-                zero?-)))
+    (tables/put :zero '(:rational) zero?-)
+    (tables/put :equ '(:rational :rational) equ?)))
 
 (install-rational-package)
-
-(zero?- '(0 1))
 
 (defn make-rational [n d]
   ((tables/get :make :rational) n d))

@@ -14,4 +14,4 @@
 (defn mul [x y] (apply-generic :mul x y))
 (defn div [x y] (apply-generic :div x y))
 (defn zero?- [x] (apply-generic :zero x))
-;; equ?
+(defn equ? [x y] (apply-generic :equ x y))
