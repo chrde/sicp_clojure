@@ -1,5 +1,8 @@
 (ns chapter3.part1.assignment-and-state-samples)
 
+(defn error [& args]
+  (throw (Exception. (apply str args))))
+
 (defn new-withdraw []
   (let [balance (atom 100)]
     (fn [amount]
@@ -24,7 +27,16 @@
             (if (>= @balance amount)
               (swap! balance - amount)
               "Insufficient funds"))
-          (deposit [m]
+          (deposit [amount]
+            (swap! balance + amount))
+          (dispatch [m]
             (cond (= m :withdraw) withdraw
                   (= m :deposit) deposit
-                  :else ))]))
+                  :else (error "Unknown request: MAKE-ACCOUNT" m)))]
+    dispatch))
+
+(def acc (make-account (atom 100)))
+((acc :withdraw) 50)
+((acc :withdraw) 60)
+((acc :deposit) 40)
+((acc :withdraw) 60)
