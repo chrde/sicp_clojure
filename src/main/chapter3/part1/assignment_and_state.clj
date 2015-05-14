@@ -33,3 +33,14 @@
       (if (not= password pass-req)
         (samples/error "Wrong password")
         (dispatch operation)))))
+
+;; 3.4
+(defn call-the-cops [_])
+(defn make-account-password-cops [balance password]
+  (let [attemps (atom 0)
+        A (make-account-password balance password)]
+    ;; execute action on A
+    ;; catch Exception
+    ;; increase attemps
+    ;; if = 7, call call-the-cops
+    ;; rethrow Exception))
